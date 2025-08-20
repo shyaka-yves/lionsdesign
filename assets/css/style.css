@@ -1,0 +1,381 @@
+/* Lions Design E-commerce Custom Styles */
+
+:root {
+    --primary-color: #000000;
+    --secondary-color: #ffffff;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-gray: #f8f9fa;
+    --dark-gray: #343a40;
+}
+
+body {
+    font-family: 'Geist', 'Inter', 'Segoe UI', Arial, sans-serif !important;
+    line-height: 1.6;
+    color: var(--primary-color);
+}
+
+/* Hero Carousel */
+.carousel-item {
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 100%;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.carousel-caption h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+/* Category Cards */
+.category-card {
+    background: var(--secondary-color);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.category-card i {
+    color: var(--success-color);
+}
+
+/* Product Cards */
+.product-card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-card .card-img-top {
+    height: 200px;
+    object-fit: contain;
+    background: #fff; /* Optional: adds a white background behind images */
+}
+
+.product-card .price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--success-color);
+    margin-bottom: 1rem;
+}
+
+/* Buttons */
+.btn-success {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-warning {
+    background-color: var(--warning-color);
+    border-color: var(--warning-color);
+    color: var(--primary-color);
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+    color: var(--primary-color);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-outline-dark {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+/* Navigation */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-brand i {
+    color: var(--success-color);
+}
+
+/* Cart */
+.cart-count {
+    position: relative;
+    top: -8px;
+    left: -5px;
+}
+
+/* Forms */
+.form-control:focus {
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.form-label {
+    font-weight: 600;
+}
+
+/* Tables */
+.table th {
+    background-color: var(--light-gray);
+    border-color: #dee2e6;
+    font-weight: 600;
+}
+
+/* Admin Panel */
+.admin-sidebar {
+    background-color: var(--dark-gray);
+    min-height: 100vh;
+}
+
+.admin-sidebar .nav-link {
+    color: var(--secondary-color);
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
+.admin-sidebar .nav-link:hover,
+.admin-sidebar .nav-link.active {
+    background-color: var(--success-color);
+    color: var(--secondary-color);
+}
+
+.admin-sidebar .nav-link i {
+    margin-right: 0.5rem;
+}
+
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-sidebar { min-height: auto; }
+    .admin-sidebar .nav-link { padding: .75rem; }
+    main.col-md-9 { padding-left: 1rem !important; padding-right: 1rem !important; }
+    .carousel-caption h1 {
+        font-size: 2rem;
+    }
+    
+    .carousel-item {
+        height: 300px;
+    }
+    
+    .category-card {
+        margin-bottom: 1rem;
+    }
+    
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile table improvements */
+@media (max-width: 576px) {
+    .table { font-size: .9rem; }
+    .table td, .table th { white-space: nowrap; }
+    .card-body .table-responsive { overflow-x: auto; }
+}
+
+/* Loading Spinner */
+.spinner-border {
+    color: var(--success-color);
+}
+
+/* Alert Messages */
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+    color: #856404;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+.social-links a:hover {
+    color: var(--success-color) !important;
+}
+
+/* Product Details */
+.product-details {
+    background-color: var(--light-gray);
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.product-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Checkout */
+.checkout-summary {
+    background-color: var(--light-gray);
+    padding: 1.5rem;
+    border-radius: 10px;
+    position: sticky;
+    top: 20px;
+}
+
+/* Order Status */
+.status-pending { color: var(--warning-color); }
+.status-paid { color: var(--success-color); }
+.status-shipped { color: #17a2b8; }
+.status-delivered { color: var(--success-color); }
+.status-cancelled { color: var(--danger-color); }
+
+/* Utility Classes */
+.text-success { color: var(--success-color) !important; }
+.text-warning { color: var(--warning-color) !important; }
+.text-danger { color: var(--danger-color) !important; }
+
+.bg-success { background-color: var(--success-color) !important; }
+.bg-warning { background-color: var(--warning-color) !important; }
+.bg-danger { background-color: var(--danger-color) !important; }
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--success-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #218838;
+} 
+
+/* Admin Dashboard Mobile Responsiveness */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        min-height: auto;
+    }
+    
+    /* Improve table readability on mobile */
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+    
+    .table-responsive th,
+    .table-responsive td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    /* Make cards more compact on mobile */
+    .card-body {
+        padding: 1rem;
+    }
+    
+    /* Improve button spacing */
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    /* Stack statistics cards vertically on mobile */
+    .col-xl-3 {
+        margin-bottom: 1rem;
+    }
+    
+    /* Improve modal responsiveness */
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    /* Better form layout on mobile */
+    .form-control {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Improve navigation on mobile */
+    .navbar-nav {
+        text-align: center;
+    }
+    
+    /* Better spacing for mobile */
+    .py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    /* Improve badge display on mobile */
+    .badge {
+        font-size: 0.75rem;
+    }
+} 
