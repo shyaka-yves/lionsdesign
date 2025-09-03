@@ -360,6 +360,10 @@ function getEstimatedDeliveryDate($order_date, $status) {
                                         <strong>Estimated Delivery:</strong>
                                         <div><?php echo getEstimatedDeliveryDate($order['created_at'], $order['status']); ?></div>
                                     </div>
+                                    <div class="mb-3">
+                                        <strong>Shipping:</strong>
+                                        <div>Depends on Your Location.</div>
+                                    </div>
                                 </div>
                             </div>
 

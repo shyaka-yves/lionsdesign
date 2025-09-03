@@ -9,6 +9,11 @@ require_once 'includes/functions.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lions Design - Premium Products & Gifts</title>
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -36,25 +41,25 @@ require_once 'includes/functions.php';
             <div class="carousel-item active">
                 <img src="Magic mug.jpg" class="d-block w-100" alt="Premium Gifts">
                 <div class="carousel-caption">
-                    <h1>Premium Gifts & Awards</h1>
-                    <p>Discover our exclusive collection of crystal awards and premium gifts</p>
+                    <h1>Premium Gifts </h1>
+                    <p>Discover our exclusive collection of premium gifts</p>
                     <a href="shop.php" class="btn btn-success btn-lg">Shop Now</a>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="Temperature Bottles.jpg" class="d-block w-100" alt="Custom Printing">
+                <img src="Temperature Bottles21.jpg" class="d-block w-100" alt="Custom Printing">
                 <div class="carousel-caption">
-                    <h1>Custom Printing Solutions</h1>
-                    <p>Professional banners, t-shirts, and promotional materials</p>
+                    <h1>Printing Solutions</h1>
+                    <p>Professional printing solutions for t-shirts, Caps and Hoodies</p>
                     <a href="shop.php?category=printing" class="btn btn-success btn-lg">View Printing</a>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="wooden.jpg" class="d-block w-100" alt="Gift Sets">
+                <img src="wooden21.jpg" class="d-block w-100" alt="Gift Sets">
                 <div class="carousel-caption">
-                    <h1>Exclusive Gift Sets</h1>
-                    <p>Perfect gifts for every occasion - mugs, umbrellas, and more</p>
-                    <a href="shop.php?category=gifts" class="btn btn-success btn-lg">Explore Gifts</a>
+                    <h1>Printing Solutions</h1>
+                    <p>Professional printing solutions for Banners,and more</p>
+                    <a href="shop.php?category=gifts" class="btn btn-success btn-lg">View printing</a>
                 </div>
             </div>
         </div>
@@ -84,7 +89,7 @@ require_once 'includes/functions.php';
                         <i class="fas fa-print fa-3x mb-3 text-success"></i>
                         <h4>Printing Services</h4>
                         <p>Banners, t-shirts, and promotional materials</p>
-                        <a href="shop.php?category=printing" class="btn btn-outline-dark">View Printing</a>
+                        <a href="services.php?" class="btn btn-outline-dark">View Printing</a>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
@@ -92,7 +97,7 @@ require_once 'includes/functions.php';
                         <i class="fas fa-gift fa-3x mb-3 text-success"></i>
                         <h4>Gift Items</h4>
                         <p>Mugs, umbrellas, key holders, and gift sets</p>
-                        <a href="shop.php?category=gifts" class="btn btn-outline-dark">View Gifts</a>
+                        <a href="shop.php?category=Gift set" class="btn btn-outline-dark">View Gifts</a>
                     </div>
                 </div>
             </div>

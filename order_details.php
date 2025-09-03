@@ -232,7 +232,7 @@ function getStatusIcon($status) {
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Shipping:</span>
-                                    <span>Free</span>
+                                    <span>Depends on Your Location.</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Tax:</span>

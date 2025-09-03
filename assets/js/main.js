@@ -118,9 +118,11 @@ function updateCartQuantity(cartId, quantity) {
 }
 
 // Remove from cart
-function removeFromCart(cartId) {
-    if (!confirm('Are you sure you want to remove this item from cart?')) {
-        return;
+function removeFromCart(cartId, skipConfirm = false) {
+    if (!skipConfirm) {
+        if (!confirm('Are you sure you want to remove this item from cart?')) {
+            return;
+        }
     }
 
     const formData = new FormData();
@@ -134,7 +136,11 @@ function removeFromCart(cartId) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Update cart display first
+            // Immediately remove the item element in both desktop and mobile views
+            const itemEls = document.querySelectorAll(`[data-cart-id="${cartId}"]`);
+            itemEls.forEach(el => el.remove());
+
+            // Update cart display (desktop list) and counters
             updateCartDisplay();
             updateCartCount();
             

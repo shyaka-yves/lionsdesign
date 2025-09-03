@@ -26,6 +26,11 @@ $categories = getCategories($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop - Lions Design</title>
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -58,7 +63,7 @@ $categories = getCategories($conn);
     <div class="container py-5">
         <div class="row">
             <!-- Sidebar Filters -->
-            <div class="col-md-3">
+            <div class="col-md-3" id="filtersSidebar">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0">Categories</h5>
@@ -79,7 +84,7 @@ $categories = getCategories($conn);
                 </div>
 
                 <!-- Price Filter -->
-                <div class="card mt-4">
+                <div class="card mt-4" id="priceFilterCard">
                     <div class="card-header">
                         <h5 class="mb-0">Price Range</h5>
                     </div>
@@ -213,6 +218,8 @@ $categories = getCategories($conn);
         // Display filtered products
         function displayFilteredProducts(products, searchTerm = '') {
             const container = document.getElementById('productsDisplay');
+            const filtersSidebar = document.getElementById('filtersSidebar');
+            const priceFilterCard = document.getElementById('priceFilterCard');
             
             if (products.length === 0) {
                 let message = 'No products found';
@@ -230,6 +237,13 @@ $categories = getCategories($conn);
                     </div>
                 `;
                 return;
+            }
+
+            // Toggle filters visibility when searching
+            if (typeof searchTerm === 'string' && searchTerm.trim().length > 0) {
+                if (filtersSidebar) filtersSidebar.style.display = 'none';
+            } else {
+                if (filtersSidebar) filtersSidebar.style.display = '';
             }
 
             let html = '';
@@ -280,6 +294,10 @@ $categories = getCategories($conn);
             document.getElementById('minPrice').value = '';
             document.getElementById('maxPrice').value = '';
             
+            // Show filters again
+            const filtersSidebar = document.getElementById('filtersSidebar');
+            if (filtersSidebar) filtersSidebar.style.display = '';
+
             // Reload the page to show all products
             window.location.reload();
         }

@@ -1,8 +1,9 @@
 <head>
-    <link rel="icon" type="image/png" href="image/logo.png">
-    <link rel="shortcut icon" type="image/png" href="image/logo.png">
-    <link rel="apple-touch-icon" href="image/logo.png">
-    <meta name="msapplication-TileImage" content="image/logo.png">
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
     <link rel="stylesheet" href="https://unpkg.com/@geist/font@latest/css/geist.css" />
 <style>
     body, html {
@@ -547,6 +548,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     updateCartCount();
     initializeGlobalSearch();
+    ensureFavicons();
 });
 
 function updateCartCount() {
@@ -563,6 +565,37 @@ function initializeGlobalSearch() {
     // Initialize both desktop and mobile search
     initializeSearchInput('globalSearchInput', 'searchResultsDropdown');
     initializeSearchInput('mobileGlobalSearchInput', 'mobileSearchResultsDropdown');
+}
+
+// Ensure favicon link tags exist in <head> for all pages
+function ensureFavicons() {
+    const head = document.head || document.getElementsByTagName('head')[0];
+    if (!head) return;
+
+    const favicons = [
+        { rel: 'icon', type: 'image/png', sizes: '96x96', href: 'favicon-96x96.png' },
+        { rel: 'icon', type: 'image/svg+xml', href: 'favicon.svg' },
+        { rel: 'shortcut icon', href: 'favicon.ico' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: 'apple-touch-icon.png' },
+        { rel: 'manifest', href: 'site.webmanifest' }
+    ];
+
+    favicons.forEach(cfg => {
+        const selectorParts = [
+            cfg.rel ? `[rel="${cfg.rel}"]` : '',
+            cfg.type ? `[type="${cfg.type}"]` : '',
+            cfg.sizes ? `[sizes="${cfg.sizes}"]` : ''
+        ].filter(Boolean).join('');
+        let link = selectorParts ? head.querySelector(`link${selectorParts}`) : null;
+        if (!link) {
+            link = document.createElement('link');
+            if (cfg.rel) link.setAttribute('rel', cfg.rel);
+            if (cfg.type) link.setAttribute('type', cfg.type);
+            if (cfg.sizes) link.setAttribute('sizes', cfg.sizes);
+            head.appendChild(link);
+        }
+        if (cfg.href) link.setAttribute('href', cfg.href);
+    });
 }
 
 function initializeSearchInput(inputId, dropdownId) {

@@ -237,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="d-flex justify-content-between mb-2">
                                 <span>Shipping:</span>
-                                <span class="text-success fw-bold">Free</span>
+                                <span>Depends on Your Location.</span>
                             </div>
                             <hr>
                             <div class="d-flex justify-content-between fs-5">
@@ -304,7 +304,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
             
             if (paymentMethod === 'mtn_mobile_money') {
-                if (!confirm('You will be redirected to MTN Mobile Money. Continue?')) {
+                if (!confirm('You want to checkout your order. Continue?')) {
                     e.preventDefault();
                     return false;
                 }

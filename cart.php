@@ -24,6 +24,11 @@ foreach ($cart_items as $item) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart - Lions Design</title>
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -369,7 +374,7 @@ foreach ($cart_items as $item) {
                         </div>
                         <div class="text-end">
                             <p class="mb-1 text-muted small">Shipping</p>
-                            <p class="mb-0 fw-bold text-success">Free</p>
+                            <p class="mb-0 text-muted small">Depends on Your Location.</p>
                         </div>
                     </div>
                     
@@ -522,8 +527,9 @@ foreach ($cart_items as $item) {
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Shipping:</span>
-                                    <span>Free</span>
+                                    <span>Depends on Your Location.</span>
                                 </div>
+                                <p class="text-muted small mb-2"></p>
                                 <hr>
                                 <div class="d-flex justify-content-between mb-3">
                                     <strong>Total:</strong>
@@ -566,10 +572,7 @@ foreach ($cart_items as $item) {
                                     <i class="fas fa-mobile-alt text-success me-2"></i>
                                     <span>MTN Mobile Money</span>
                                 </div>
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="fas fa-university text-primary me-2"></i>
-                                    <span>Bank Transfer</span>
-                                </div>
+                                
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-money-bill-wave text-success me-2"></i>
                                     <span>Cash on Delivery</span>
@@ -588,23 +591,6 @@ foreach ($cart_items as $item) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/main.js?v=<?php echo time(); ?>"></script>
     <script>
-        // Quantity buttons
-        document.querySelectorAll('.quantity-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const input = this.parentNode.querySelector('.quantity-input');
-                const action = this.dataset.action;
-                let value = parseInt(input.value);
-                
-                if (action === 'increase') {
-                    value++;
-                } else if (action === 'decrease' && value > 1) {
-                    value--;
-                }
-                
-                input.value = value;
-                input.dispatchEvent(new Event('change'));
-            });
-        });
 
         // Clear cart function
         function clearCart() {
@@ -698,6 +684,8 @@ foreach ($cart_items as $item) {
         // Update individual item totals
         function updateItemTotals() {
             const cartItems = document.querySelectorAll('.cart-item');
+            const mobileCartItems = document.querySelectorAll('.cart-item-mobile');
+            
             cartItems.forEach(item => {
                 const quantityInput = item.querySelector('.quantity-input');
                 const priceText = item.querySelector('.text-muted').textContent;
@@ -717,6 +705,30 @@ foreach ($cart_items as $item) {
                     totalElement.textContent = formattedTotal;
                 }
             });
+            
+            // Update mobile cart item totals
+            mobileCartItems.forEach(item => {
+                const quantityInput = item.querySelector('.quantity-input');
+                const priceText = item.querySelector('.text-muted').textContent;
+                const totalElement = item.querySelector('.price-mobile');
+                
+                if (quantityInput && priceText && totalElement) {
+                    const quantity = parseInt(quantityInput.value);
+                    const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
+                    const total = quantity * price;
+                    
+                    // Format the total with Rwf currency
+                    const formattedTotal = new Intl.NumberFormat('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }).format(total) + ' Rwf';
+                    
+                    totalElement.textContent = formattedTotal;
+                }
+            });
+            
+            // Update mobile cart subtotal
+            updateMobileCartSubtotal();
         }
 
         // Initialize cart event listeners when page loads
@@ -746,10 +758,7 @@ foreach ($cart_items as $item) {
                 // Immediately update the item total
                 updateItemTotal(input);
                 
-                // Trigger both change event and direct update
-                input.dispatchEvent(new Event('change'));
-                
-                // Also directly update cart quantity
+                // Update cart quantity once
                 const cartId = input.dataset.cartId;
                 const quantity = input.value;
                 updateCartQuantity(cartId, quantity);
@@ -760,40 +769,83 @@ foreach ($cart_items as $item) {
                 e.preventDefault();
                 const button = e.target.closest('.remove-from-cart');
                 const cartId = button.dataset.cartId;
-                removeFromCart(cartId);
-            }
-        });
-
-        // Handle quantity input changes
-        document.addEventListener('change', function(e) {
-            if (e.target.classList.contains('quantity-input')) {
-                // Immediately update the item total
-                updateItemTotal(e.target);
-                
-                const cartId = e.target.dataset.cartId;
-                const quantity = e.target.value;
-                updateCartQuantity(cartId, quantity);
+                // If on mobile layout, skip confirmation for faster UX
+                const isMobile = window.matchMedia && window.matchMedia('(max-width: 767px)').matches;
+                removeFromCart(cartId, isMobile);
             }
         });
 
         // Update individual item total
         function updateItemTotal(quantityInput) {
             const cartItem = quantityInput.closest('.cart-item');
-            const priceText = cartItem.querySelector('.text-muted').textContent;
-            const totalElement = cartItem.querySelector('.fw-bold');
+            const mobileCartItem = quantityInput.closest('.cart-item-mobile');
             
-            if (priceText && totalElement) {
-                const quantity = parseInt(quantityInput.value);
-                const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
-                const total = quantity * price;
+            if (cartItem) {
+                const priceText = cartItem.querySelector('.text-muted').textContent;
+                const totalElement = cartItem.querySelector('.fw-bold');
                 
-                // Format the total with Rwf currency
-                const formattedTotal = new Intl.NumberFormat('en-US', {
+                if (priceText && totalElement) {
+                    const quantity = parseInt(quantityInput.value);
+                    const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
+                    const total = quantity * price;
+                    
+                    // Format the total with Rwf currency
+                    const formattedTotal = new Intl.NumberFormat('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }).format(total) + ' Rwf';
+                    
+                    totalElement.textContent = formattedTotal;
+                }
+            }
+            
+            if (mobileCartItem) {
+                const priceText = mobileCartItem.querySelector('.text-muted').textContent;
+                const totalElement = mobileCartItem.querySelector('.price-mobile');
+                
+                if (priceText && totalElement) {
+                    const quantity = parseInt(quantityInput.value);
+                    const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
+                    const total = quantity * price;
+                    
+                    // Format the total with Rwf currency
+                    const formattedTotal = new Intl.NumberFormat('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }).format(total) + ' Rwf';
+                    
+                    totalElement.textContent = formattedTotal;
+                }
+                
+                // Update mobile cart subtotal
+                updateMobileCartSubtotal();
+            }
+        }
+        
+        // Update mobile cart subtotal
+        function updateMobileCartSubtotal() {
+            const mobileCartItems = document.querySelectorAll('.cart-item-mobile');
+            let subtotal = 0;
+            
+            mobileCartItems.forEach(item => {
+                const quantityInput = item.querySelector('.quantity-input');
+                const priceText = item.querySelector('.text-muted').textContent;
+                
+                if (quantityInput && priceText) {
+                    const quantity = parseInt(quantityInput.value);
+                    const price = parseFloat(priceText.replace(/[^\d.]/g, ''));
+                    subtotal += quantity * price;
+                }
+            });
+            
+            // Update the mobile cart subtotal display
+            const mobileSubtotalElement = document.querySelector('.cart-summary-mobile .text-success');
+            if (mobileSubtotalElement) {
+                const formattedSubtotal = new Intl.NumberFormat('en-US', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
-                }).format(total) + ' Rwf';
-                
-                totalElement.textContent = formattedTotal;
+                }).format(subtotal) + ' Rwf';
+                mobileSubtotalElement.textContent = formattedSubtotal;
             }
         }
     </script>
