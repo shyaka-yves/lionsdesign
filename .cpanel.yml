@@ -1,6 +1,6 @@
 deployment:
   tasks:
-    # Define the deployment path
+    # Define the deployment 
     - export DEPLOYPATH=/home/lionsdes/public_html/
 
     # Sync repository to public_html, excluding .git and Uploads (optional)
