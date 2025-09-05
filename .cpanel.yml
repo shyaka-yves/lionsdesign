@@ -1,5 +1,17 @@
 ---
 deployment:
-  tasks:
-    - export DEPLOYPATH=/home/lionsdes/public_html/
-    - /bin/rsync -R images $DEPLOYPATH
+tasks:
+# Set where your live site is published
+- export DEPLOYPATH=/home/your_cpanel_user/public_html
+
+
+# Clean public_html but keep maintenance index.php until deploy completes
+- /usr/bin/find "$DEPLOYPATH" -mindepth 1 -maxdepth 1 ! -name "index.php" -exec rm -rf {} +
+
+
+# Sync repo files into public_html (overwriting maintenance index.php at the end)
+- /usr/bin/rsync -a --delete \
+--exclude=".git" \
+--exclude=".github" \
+--exclude="node_modules" \
+./ "$DEPLOYPATH"/
