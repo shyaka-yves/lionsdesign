@@ -2,7 +2,7 @@
 deployment:
 tasks:
 # Set where your live site is published
-- export DEPLOYPATH=/home/your_cpanel_user/public_html
+- export DEPLOYPATH=/home/lionsdes/public_html
 
 
 # Clean public_html but keep maintenance index.php until deploy completes
