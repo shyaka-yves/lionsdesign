@@ -1,0 +1,4 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/lionsdes/public_html/
+    - /bin/rsync -a * $DEPLOYPATH
