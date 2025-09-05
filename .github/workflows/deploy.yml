@@ -1,0 +1,26 @@
+name: 🚀 Deploy to cPanel on Push
+
+on:
+  push:
+    branches: [ "main" ]   # only deploy when pushing to main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout your repo code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Deploy using cPanel API
+      - name: Deploy to cPanel
+        uses: pinkasey/cpanel-deploy-action@v1.2.1
+        with:
+          hostname: ${{ secrets.CPANEL_HOST }}        # e.g. server203.orangehost.com
+          cpanel_username: ${{ secrets.CPANEL_USERNAME }}  # your cPanel username
+          cpanel_token: ${{ secrets.CPANEL_TOKEN }}       # API token (not your password!)
+          cPanelApiPort: 2083
+          repository_root: "/home/lionsdes/repositories/lionsdesign" # must match your cPanel repo path
+          updateRepository: true
+          branch: main
