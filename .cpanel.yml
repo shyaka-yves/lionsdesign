@@ -1,19 +1,6 @@
 ---
 deployment:
   tasks:
-    # 1) Set where your live site is published
     - export DEPLOYPATH=/home/lionsdes/public_html
-    
-    # 2) Make sure the folder exists
-    - /bin/mkdir -p "$DEPLOYPATH"
-    
-    # 3) Clean up the destination (but preserve .well-known for SSL)
-    - /usr/bin/find "$DEPLOYPATH" -mindepth 1 -maxdepth 1 \! -name ".well-known" -exec rm -rf {} +
-    
-    # 4) Copy all files including dotfiles from repo to public_html
-    - /bin/cp -a . "$DEPLOYPATH"/
-    
-    # 5) Remove git-related files from the live site
-    - /bin/rm -rf "$DEPLOYPATH/.git"
-    - /bin/rm -rf "$DEPLOYPATH/.github"
-    - /bin/rm -f "$DEPLOYPATH/.cpanel.yml"
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/cp -r . $DEPLOYPATH
