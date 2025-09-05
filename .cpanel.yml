@@ -1,4 +1,0 @@
-deployment:
-  tasks:
-    - export DEPLOYPATH=/home/lionsdes/public_html/
-    - /bin/rsync -av --delete --exclude '.git' --exclude 'Uploads' /home/lionsdes/repositories/lionsdesign/ $DEPLOYPATH >> /home/lionsdes/deploy.log 2>&1

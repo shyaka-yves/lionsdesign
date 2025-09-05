@@ -22,6 +22,7 @@ $categories = getCategories($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,6 +36,7 @@ $categories = getCategories($conn);
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- Navigation -->
     <?php include 'includes/header.php'; ?>
@@ -49,7 +51,8 @@ $categories = getCategories($conn);
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search products..."
+                            onkeyup="searchProducts()">
                         <button class="btn btn-success" type="button" onclick="searchProducts()">
                             <i class="fas fa-search"></i>
                         </button>
@@ -70,12 +73,13 @@ $categories = getCategories($conn);
                     </div>
                     <div class="card-body">
                         <div class="list-group list-group-flush">
-                            <a href="shop.php" class="list-group-item list-group-item-action <?php echo !$category_filter ? 'active' : ''; ?>">
+                            <a href="shop.php"
+                                class="list-group-item list-group-item-action <?php echo !$category_filter ? 'active' : ''; ?>">
                                 All Products
                             </a>
                             <?php foreach ($categories as $category): ?>
-                                <a href="shop.php?category=<?php echo $category['slug']; ?>" 
-                                   class="list-group-item list-group-item-action <?php echo $category_filter === $category['slug'] ? 'active' : ''; ?>">
+                                <a href="shop.php?category=<?php echo $category['slug']; ?>"
+                                    class="list-group-item list-group-item-action <?php echo $category_filter === $category['slug'] ? 'active' : ''; ?>">
                                     <?php echo $category['name']; ?>
                                 </a>
                             <?php endforeach; ?>
@@ -124,20 +128,24 @@ $categories = getCategories($conn);
                             <?php foreach ($products as $product): ?>
                                 <div class="col-md-4 mb-4">
                                     <div class="card product-card h-100" id="product-<?php echo $product['id']; ?>">
-                                        <img src="<?php echo $product['image']; ?>" class="card-img-top" alt="<?php echo $product['title']; ?>">
+                                        <img src="<?php echo $product['image']; ?>" class="card-img-top"
+                                            alt="<?php echo $product['title']; ?>">
                                         <div class="card-body d-flex flex-column">
                                             <h5 class="card-title"><?php echo $product['title']; ?></h5>
                                             <p class="card-text"><?php echo substr($product['description'], 0, 100); ?>...</p>
                                             <div class="mt-auto">
                                                 <p class="price"><?php echo formatPrice($product['price']); ?></p>
                                                 <?php if ($product['stock_quantity'] > 0): ?>
-                                                    <small class="text-muted">In Stock: <?php echo $product['stock_quantity']; ?></small>
+                                                    <small class="text-muted">In Stock:
+                                                        <?php echo $product['stock_quantity']; ?></small>
                                                 <?php else: ?>
                                                     <small class="text-danger">Out of Stock</small>
                                                 <?php endif; ?>
                                                 <div class="d-grid">
-                                                    <button class="btn btn-success add-to-cart" data-product-id="<?php echo $product['id']; ?>" <?php echo $product['stock_quantity'] <= 0 ? 'disabled' : ''; ?>>
-                                                        <i class="fas fa-shopping-cart me-2"></i><?php echo $product['stock_quantity'] <= 0 ? 'Out of Stock' : 'Add to Cart'; ?>
+                                                    <button class="btn btn-success add-to-cart"
+                                                        data-product-id="<?php echo $product['id']; ?>" <?php echo $product['stock_quantity'] <= 0 ? 'disabled' : ''; ?>>
+                                                        <i
+                                                            class="fas fa-shopping-cart me-2"></i><?php echo $product['stock_quantity'] <= 0 ? 'Out of Stock' : 'Add to Cart'; ?>
                                                     </button>
                                                 </div>
                                             </div>
@@ -167,7 +175,7 @@ $categories = getCategories($conn);
                 const searchTerm = document.getElementById('searchInput').value;
                 const minPrice = document.getElementById('minPrice').value;
                 const maxPrice = document.getElementById('maxPrice').value;
-                
+
                 const formData = new FormData();
                 formData.append('action', 'search_products');
                 formData.append('search_term', searchTerm);
@@ -179,13 +187,13 @@ $categories = getCategories($conn);
                     method: 'POST',
                     body: formData
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        displayFilteredProducts(data.products, data.search_term);
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            displayFilteredProducts(data.products, data.search_term);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             }, 300); // Debounce search for better performance
         }
 
@@ -194,7 +202,7 @@ $categories = getCategories($conn);
             const minPrice = document.getElementById('minPrice').value;
             const maxPrice = document.getElementById('maxPrice').value;
             const searchTerm = document.getElementById('searchInput').value;
-            
+
             const formData = new FormData();
             formData.append('action', 'search_products');
             formData.append('search_term', searchTerm);
@@ -206,13 +214,13 @@ $categories = getCategories($conn);
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    displayFilteredProducts(data.products, data.search_term);
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayFilteredProducts(data.products, data.search_term);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
 
         // Display filtered products
@@ -220,7 +228,7 @@ $categories = getCategories($conn);
             const container = document.getElementById('productsDisplay');
             const filtersSidebar = document.getElementById('filtersSidebar');
             const priceFilterCard = document.getElementById('priceFilterCard');
-            
+
             if (products.length === 0) {
                 let message = 'No products found';
                 if (searchTerm) {
@@ -252,7 +260,7 @@ $categories = getCategories($conn);
                     <h5>Search Results for "${searchTerm}" (${products.length} products found)</h5>
                 </div>`;
             }
-            
+
             html += '<div class="row">';
             products.forEach(product => {
                 html += `
@@ -280,7 +288,7 @@ $categories = getCategories($conn);
 
             // Reattach event listeners
             document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', function(e) {
+                button.addEventListener('click', function (e) {
                     e.preventDefault();
                     const productId = this.dataset.productId;
                     addToCart(productId, 1);
@@ -293,7 +301,7 @@ $categories = getCategories($conn);
             document.getElementById('searchInput').value = '';
             document.getElementById('minPrice').value = '';
             document.getElementById('maxPrice').value = '';
-            
+
             // Show filters again
             const filtersSidebar = document.getElementById('filtersSidebar');
             if (filtersSidebar) filtersSidebar.style.display = '';
@@ -303,18 +311,18 @@ $categories = getCategories($conn);
         }
 
         // Add event listeners for price filter inputs
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const minPriceInput = document.getElementById('minPrice');
             const maxPriceInput = document.getElementById('maxPrice');
-            
+
             // Auto-filter when price inputs change
-            minPriceInput.addEventListener('input', function() {
+            minPriceInput.addEventListener('input', function () {
                 if (this.value || maxPriceInput.value) {
                     filterByPrice();
                 }
             });
-            
-            maxPriceInput.addEventListener('input', function() {
+
+            maxPriceInput.addEventListener('input', function () {
                 if (this.value || minPriceInput.value) {
                     filterByPrice();
                 }
@@ -322,4 +330,5 @@ $categories = getCategories($conn);
         });
     </script>
 </body>
-</html> 
+
+</html>
