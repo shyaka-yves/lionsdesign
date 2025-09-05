@@ -3,4 +3,8 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/lionsdes/public_html
     - /bin/mkdir -p $DEPLOYPATH
+    - /bin/find $DEPLOYPATH -mindepth 1 -maxdepth 1 \! -name ".well-known" -exec rm -rf {} +
     - /bin/cp -r . $DEPLOYPATH
+    - /bin/rm -rf $DEPLOYPATH/.git
+    - /bin/rm -rf $DEPLOYPATH/.github
+    - /bin/rm -f $DEPLOYPATH/.cpanel.yml
