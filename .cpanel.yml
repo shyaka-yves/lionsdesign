@@ -3,13 +3,17 @@ deployment:
   tasks:
     # 1) Set where your live site is published
     - export DEPLOYPATH=/home/lionsdes/public_html
-
-    # 2) Clean public_html but keep maintenance index.php until deploy completes
-    - /usr/bin/find "$DEPLOYPATH" -mindepth 1 -maxdepth 1 ! -name "index.php" -exec rm -rf {} +
-
-    # 3) Sync repo files into public_html (overwriting maintenance index.php at the end)
-    - /usr/bin/rsync -a --delete \
-        --exclude=".git" \
-        --exclude=".github" \
-        --exclude="node_modules" \
-        ./ "$DEPLOYPATH"/
+    
+    # 2) Make sure the folder exists
+    - /bin/mkdir -p "$DEPLOYPATH"
+    
+    # 3) Clean up the destination (but preserve .well-known for SSL)
+    - /usr/bin/find "$DEPLOYPATH" -mindepth 1 -maxdepth 1 \! -name ".well-known" -exec rm -rf {} +
+    
+    # 4) Copy all files including dotfiles from repo to public_html
+    - /bin/cp -a . "$DEPLOYPATH"/
+    
+    # 5) Remove git-related files from the live site
+    - /bin/rm -rf "$DEPLOYPATH/.git"
+    - /bin/rm -rf "$DEPLOYPATH/.github"
+    - /bin/rm -f "$DEPLOYPATH/.cpanel.yml"
