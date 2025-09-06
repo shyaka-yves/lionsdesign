@@ -1,0 +1,10 @@
+# Email Debug Log for lionsdesignltd.com
+# This file will contain detailed email sending logs for debugging
+
+[2024-01-01 00:00:00] Email debug log initialized for lionsdesignltd.com
+[2024-01-01 00:00:00] Environment: Hosting (lionsdesignltd.com)
+[2024-01-01 00:00:00] PHP Version: 8.1.33
+[2024-01-01 00:00:00] Server: LiteSpeed
+[2024-01-01 00:00:00] PHPMailer: Available via Composer
+[2024-01-01 00:00:00] SMTP Ports: 587 and 465 are open
+[2024-01-01 00:00:00] Gmail App Password: Configured
