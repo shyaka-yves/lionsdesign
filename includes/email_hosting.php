@@ -3,33 +3,39 @@
 
 function sendOTPEmailHosting($email, $otp, $type) {
     try {
-        // Try multiple email configurations
-        $configs = [
-            'primary' => require __DIR__ . '/../config/email.php',
-            'hosting' => require __DIR__ . '/../config/email_hosting.php'
-        ];
+        // Load primary configuration
+        $primary_config = require __DIR__ . '/../config/email.php';
         
-        foreach ($configs as $config_name => $email_config) {
-            error_log("Trying email config: $config_name");
-            
-            if (sendWithConfig($email, $otp, $type, $email_config)) {
-                error_log("Email sent successfully with config: $config_name");
-                return true;
-            } else {
-                error_log("Failed to send email with config: $config_name");
+        // Try primary configuration first
+        error_log("Trying primary email config for lionsdesignltd.com");
+        if (sendWithConfig($email, $otp, $type, $primary_config)) {
+            error_log("Email sent successfully with primary config");
+            return true;
+        }
+        
+        // Try backup configurations if primary fails
+        if (isset($primary_config['backup_configs'])) {
+            foreach ($primary_config['backup_configs'] as $index => $backup_config) {
+                error_log("Trying backup config #" . ($index + 1));
+                if (sendWithConfig($email, $otp, $type, $backup_config)) {
+                    error_log("Email sent successfully with backup config #" . ($index + 1));
+                    return true;
+                }
             }
         }
         
-        // If all configs fail, try alternative SMTP settings
+        // Try alternative SMTP settings
+        error_log("Trying alternative SMTP settings");
         if (sendWithAlternativeSettings($email, $otp, $type)) {
             return true;
         }
         
         // Try Brevo as last resort
+        error_log("Trying Brevo as last resort");
         return sendWithBrevo($email, $otp, $type);
         
     } catch (Exception $e) {
-        error_log("Email sending exception: " . $e->getMessage());
+        error_log("Email sending exception on lionsdesignltd.com: " . $e->getMessage());
         return false;
     }
 }
@@ -47,7 +53,14 @@ function sendWithConfig($email, $otp, $type, $email_config) {
         $mail->SMTPAuth = true;
         $mail->Username = $email_config['smtp_username'];
         $mail->Password = $email_config['smtp_password'];
-        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        
+        // Handle different encryption methods
+        if (isset($email_config['smtp_secure'])) {
+            $mail->SMTPSecure = $email_config['smtp_secure'];
+        } else {
+            $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        }
+        
         $mail->Port = $email_config['smtp_port'];
         
         // Timeout and connection settings

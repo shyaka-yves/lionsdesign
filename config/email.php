@@ -11,29 +11,37 @@ if (error_get_last()) {
 }
 
 $config = [
-    // Gmail SMTP (recommended - requires App Password)
+    // Gmail SMTP (optimized for hosting environment)
     'smtp_host' => 'smtp.gmail.com',
     'smtp_port' => 587,
     'smtp_username' => 'shyakayvany@gmail.com',
-    'smtp_password' => 'uaur ahxe gqvb iemd', // Replace with your Gmail App Password
+    'smtp_password' => 'uaur ahxe gqvb iemd', // Gmail App Password
     
-    // Alternative: Brevo (formerly Sendinblue) - Free tier allows 300 emails/day
-    // 'smtp_host' => 'smtp-relay.brevo.com',
-    // 'smtp_port' => 587,
-    // 'smtp_username' => 'shyakayvany@gmail.com',
-    // 'smtp_password' => 'your-brevo-api-key', // Replace with your actual Brevo API key
-    
-    // Alternative: Outlook SMTP
-    // 'smtp_host' => 'smtp-mail.outlook.com',
-    // 'smtp_port' => 587,
-    // 'smtp_username' => 'your-outlook-email@outlook.com',
-    // 'smtp_password' => 'your-outlook-password',
-    
-    // Hosting environment specific settings
-    'timeout' => 30,
+    // Hosting environment specific settings for lionsdesignltd.com
+    'timeout' => 60, // Increased timeout for hosting
     'verify_peer' => false,
     'verify_peer_name' => false,
     'allow_self_signed' => true,
+    'disable_verify_peer' => true,
+    
+    // Alternative configurations for fallback
+    'backup_configs' => [
+        // Try port 465 with SSL if 587 fails
+        [
+            'smtp_host' => 'smtp.gmail.com',
+            'smtp_port' => 465,
+            'smtp_secure' => 'ssl',
+            'smtp_username' => 'shyakayvany@gmail.com',
+            'smtp_password' => 'uaur ahxe gqvb iemd',
+        ],
+        // Brevo configuration as backup
+        [
+            'smtp_host' => 'smtp-relay.brevo.com',
+            'smtp_port' => 587,
+            'smtp_username' => 'shyakayvany@gmail.com',
+            'smtp_password' => 'YOUR_BREVO_API_KEY', // Replace with actual Brevo API key
+        ]
+    ]
 ];
 
 // Log the config for debugging
