@@ -1,8 +1,8 @@
 <?php
 // Database configuration
 define('DB_HOST', 'localhost');
-define('DB_USER', 'lionsdes_devmoise');
-define('DB_PASS', '%9Xgay9]pLMl');
+define('DB_USER', 'lionsdes_devmoise'); 
+define('DB_PASS', '%9Xgay9]pLMl'); 
 define('DB_NAME', 'lionsdes_liondesign_db');
 
 // Create connection

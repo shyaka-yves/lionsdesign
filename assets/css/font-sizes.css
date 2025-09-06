@@ -1,0 +1,181 @@
+/* Global Font Size Reductions - Lions Design */
+
+/* Base font size reduction */
+html {
+    font-size: 14px !important; /* Reduced from 16px */
+}
+
+body {
+    font-size: 0.9rem !important; /* Reduced from 1rem */
+    line-height: 1.5 !important; /* Slightly reduced line height */
+}
+
+/* Headings font size reductions */
+h1, .h1 { font-size: 1.8rem !important; } /* Reduced from 2.5rem */
+h2, .h2 { font-size: 1.5rem !important; } /* Reduced from 2rem */
+h3, .h3 { font-size: 1.3rem !important; } /* Reduced from 1.75rem */
+h4, .h4 { font-size: 1.1rem !important; } /* Reduced from 1.5rem */
+h5, .h5 { font-size: 1rem !important; } /* Reduced from 1.25rem */
+h6, .h6 { font-size: 0.9rem !important; } /* Reduced from 1rem */
+
+/* Bootstrap display classes */
+.display-1 { font-size: 2.5rem !important; } /* Reduced from 5rem */
+.display-2 { font-size: 2rem !important; } /* Reduced from 4.5rem */
+.display-3 { font-size: 1.75rem !important; } /* Reduced from 4rem */
+.display-4 { font-size: 1.5rem !important; } /* Reduced from 3.5rem */
+.display-5 { font-size: 1.25rem !important; } /* Reduced from 3rem */
+.display-6 { font-size: 1.1rem !important; } /* Reduced from 2.5rem */
+
+/* Lead text */
+.lead { font-size: 1rem !important; } /* Reduced from 1.25rem */
+
+/* Form elements */
+.form-control, .form-select {
+    font-size: 0.9rem !important; /* Reduced from 1rem */
+}
+
+.form-label {
+    font-size: 0.9rem !important; /* Reduced from 1rem */
+}
+
+/* Buttons */
+.btn {
+    font-size: 0.85rem !important; /* Reduced from 1rem */
+}
+
+.btn-sm {
+    font-size: 0.75rem !important; /* Reduced from 0.875rem */
+}
+
+.btn-lg {
+    font-size: 1rem !important; /* Reduced from 1.25rem */
+}
+
+/* Cards */
+.card-title {
+    font-size: 1.1rem !important; /* Reduced from 1.25rem */
+}
+
+.card-text {
+    font-size: 0.9rem !important; /* Reduced from 1rem */
+}
+
+/* Navigation */
+.navbar-brand {
+    font-size: 1.2rem !important; /* Reduced from 1.5rem */
+}
+
+.nav-link {
+    font-size: 0.9rem !important; /* Reduced from 1rem */
+}
+
+/* Tables */
+.table {
+    font-size: 0.85rem !important; /* Reduced from 1rem */
+}
+
+.table th {
+    font-size: 0.8rem !important; /* Reduced from 0.875rem */
+}
+
+/* Alerts */
+.alert {
+    font-size: 0.9rem !important; /* Reduced from 1rem */
+}
+
+/* Paragraphs */
+p {
+    font-size: 0.9rem !important; /* Explicit font size for paragraphs */
+}
+
+/* Small text */
+small, .small {
+    font-size: 0.8rem !important; /* Reduced from 0.875rem */
+}
+
+/* Badges */
+.badge {
+    font-size: 0.7rem !important; /* Reduced from 0.75rem */
+}
+
+/* Modal */
+.modal-title {
+    font-size: 1.1rem !important; /* Reduced from 1.25rem */
+}
+
+.modal-body {
+    font-size: 0.9rem !important; /* Reduced from 1rem */
+}
+
+/* Dropdown */
+.dropdown-item {
+    font-size: 0.85rem !important; /* Reduced from 1rem */
+}
+
+/* List groups */
+.list-group-item {
+    font-size: 0.9rem !important; /* Reduced from 1rem */
+}
+
+/* Pagination */
+.page-link {
+    font-size: 0.85rem !important; /* Reduced from 1rem */
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    font-size: 0.85rem !important; /* Reduced from 1rem */
+}
+
+/* Admin specific overrides */
+.admin-sidebar .nav-link {
+    font-size: 0.8rem !important;
+}
+
+.admin-mobile-header .btn {
+    font-size: 0.75rem !important;
+}
+
+.feedback-card .card-title {
+    font-size: 0.9rem !important;
+}
+
+.feedback-card .card-text {
+    font-size: 0.8rem !important;
+}
+
+.status-badge {
+    font-size: 0.7rem !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    html {
+        font-size: 13px !important; /* Even smaller on mobile */
+    }
+    
+    .carousel-caption h1 {
+        font-size: 1.5rem !important; /* Reduced from 2rem */
+    }
+    
+    .display-1 { font-size: 2rem !important; }
+    .display-2 { font-size: 1.75rem !important; }
+    .display-3 { font-size: 1.5rem !important; }
+    .display-4 { font-size: 1.25rem !important; }
+    .display-5 { font-size: 1.1rem !important; }
+    .display-6 { font-size: 1rem !important; }
+}
+
+@media (max-width: 576px) {
+    html {
+        font-size: 12px !important; /* Smallest on very small screens */
+    }
+    
+    .carousel-caption h1 {
+        font-size: 1.25rem !important; /* Further reduced */
+    }
+    
+    .carousel-caption p {
+        font-size: 0.8rem !important; /* Smaller description */
+    }
+}

@@ -33,10 +33,9 @@
         </div>
         <hr class="my-4">
         <div class="row">
-            <div class="col-md-6">
-                <center><p class="mb-0">&copy; 2024 Lions Design. All rights reserved.</p></center>
+            <div class="col-12 text-center">
+                <p class="mb-0">&copy; 2024 Lions Design. All rights reserved.</p>
             </div>
-
         </div>
     </div>
 </footer> 

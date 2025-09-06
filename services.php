@@ -31,8 +31,8 @@ $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
         /* Remove custom body font to use global style */
         .service-card { border: 1px solid #eee; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: box-shadow .2s; background: #fff; }
         .service-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
-        .service-img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px 12px 0 0; }
-        .service-title { font-weight: 700; font-size: 1.2rem; }
+        .service-img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px 12px 0 0; background-color: #f8f9fa; }
+        .service-title { font-weight: 700; font-size: 1rem; } /* Reduced from 1.2rem */
         .service-price { color: #009e3c; font-weight: 600; }
         .btn-request { background: #009e3c; color: #fff; border: none; font-weight: 600; }
         .btn-request:hover { background: #007a2c; }
@@ -72,10 +72,10 @@ $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($services as $service): ?>
                 <div class="col-md-4 col-lg-3">
                     <div class="service-card h-100 d-flex flex-column">
-                        <img src="<?= htmlspecialchars($service['image']) ?>" class="service-img" alt="<?= htmlspecialchars($service['title']) ?>">
+                        <img src="<?= htmlspecialchars($service['image']) ?>" class="service-img" alt="<?= htmlspecialchars($service['title']) ?>" onerror="this.src='assets/images/placeholder.jpg'">
                         <div class="p-3 flex-grow-1 d-flex flex-column">
                             <div class="service-title mb-2"><?= htmlspecialchars($service['title']) ?></div>
-                            <div class="mb-2" style="font-size:0.95rem; color:#444;">
+                            <div class="mb-2" style="font-size:0.85rem; color:#444;"> <!-- Reduced from 0.95rem -->
                                 <?= nl2br(htmlspecialchars($service['description'])) ?>
                             </div>
                             <div class="service-price mb-3">Starting at <?= htmlspecialchars($service['price']) ?></div>
@@ -208,10 +208,10 @@ function displayFilteredServices(services, searchTerm = '') {
         html += `
             <div class="col-md-4 col-lg-3">
                 <div class="service-card h-100 d-flex flex-column">
-                    <img src="${service.image}" class="service-img" alt="${service.title}">
+                    <img src="${service.image}" class="service-img" alt="${service.title}" onerror="this.src='assets/images/placeholder.jpg'">
                     <div class="p-3 flex-grow-1 d-flex flex-column">
                         <div class="service-title mb-2">${service.title}</div>
-                        <div class="mb-2" style="font-size:0.95rem; color:#444;">
+                        <div class="mb-2" style="font-size:0.85rem; color:#444;"> <!-- Reduced from 0.95rem -->
                             ${service.description.replace(/\n/g, '<br>')}
                         </div>
                         <div class="service-price mb-3">Starting at ${service.price}</div>

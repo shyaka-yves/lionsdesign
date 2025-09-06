@@ -28,6 +28,12 @@ $config = [
     // 'smtp_port' => 587,
     // 'smtp_username' => 'your-outlook-email@outlook.com',
     // 'smtp_password' => 'your-outlook-password',
+    
+    // Hosting environment specific settings
+    'timeout' => 30,
+    'verify_peer' => false,
+    'verify_peer_name' => false,
+    'allow_self_signed' => true,
 ];
 
 // Log the config for debugging

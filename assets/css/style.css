@@ -1,5 +1,8 @@
 /* Lions Design E-commerce Custom Styles */
 
+/* Import font size reductions */
+@import url('font-sizes.css');
+
 :root {
     --primary-color: #000000;
     --secondary-color: #ffffff;
@@ -12,8 +15,90 @@
 
 body {
     font-family: 'Geist', 'Inter', 'Segoe UI', Arial, sans-serif !important;
-    line-height: 1.6;
+    font-size: 0.9rem; /* Reduced from default 1rem */
+    line-height: 1.5; /* Slightly reduced line height */
     color: var(--primary-color);
+}
+
+/* Global font size reductions */
+html {
+    font-size: 14px; /* Base font size reduced from 16px */
+}
+
+body {
+    font-size: 0.9rem; /* Reduced from default 1rem */
+}
+
+/* Headings font size reductions */
+h1 { font-size: 1.8rem; } /* Reduced from 2.5rem */
+h2 { font-size: 1.5rem; } /* Reduced from 2rem */
+h3 { font-size: 1.3rem; } /* Reduced from 1.75rem */
+h4 { font-size: 1.1rem; } /* Reduced from 1.5rem */
+h5 { font-size: 1rem; } /* Reduced from 1.25rem */
+h6 { font-size: 0.9rem; } /* Reduced from 1rem */
+
+/* Bootstrap overrides for smaller fonts */
+.display-1 { font-size: 2.5rem; } /* Reduced from 5rem */
+.display-2 { font-size: 2rem; } /* Reduced from 4.5rem */
+.display-3 { font-size: 1.75rem; } /* Reduced from 4rem */
+.display-4 { font-size: 1.5rem; } /* Reduced from 3.5rem */
+.display-5 { font-size: 1.25rem; } /* Reduced from 3rem */
+.display-6 { font-size: 1.1rem; } /* Reduced from 2.5rem */
+
+.lead { font-size: 1rem; } /* Reduced from 1.25rem */
+
+/* Form elements */
+.form-control, .form-select {
+    font-size: 0.9rem; /* Reduced from 1rem */
+}
+
+.form-label {
+    font-size: 0.9rem; /* Reduced from 1rem */
+}
+
+/* Buttons */
+.btn {
+    font-size: 0.85rem; /* Reduced from 1rem */
+}
+
+.btn-sm {
+    font-size: 0.75rem; /* Reduced from 0.875rem */
+}
+
+.btn-lg {
+    font-size: 1rem; /* Reduced from 1.25rem */
+}
+
+/* Cards */
+.card-title {
+    font-size: 1.1rem; /* Reduced from 1.25rem */
+}
+
+.card-text {
+    font-size: 0.9rem; /* Reduced from 1rem */
+}
+
+/* Navigation */
+.navbar-brand {
+    font-size: 1.2rem; /* Reduced from 1.5rem */
+}
+
+.nav-link {
+    font-size: 0.9rem; /* Reduced from 1rem */
+}
+
+/* Tables */
+.table {
+    font-size: 0.85rem; /* Reduced from 1rem */
+}
+
+.table th {
+    font-size: 0.8rem; /* Reduced from 0.875rem */
+}
+
+/* Alerts */
+.alert {
+    font-size: 0.9rem; /* Reduced from 1rem */
 }
 
 /* Global text alignment for readability */
@@ -21,6 +106,7 @@ p {
     text-align: justify;
     text-justify: inter-word;
     hyphens: auto;
+    font-size: 0.9rem; /* Explicit font size for paragraphs */
 }
 
 /* Utility: justify any text element */
@@ -57,14 +143,14 @@ section p,
 /* Hero Carousel */
 .carousel-item {
     height: 500px;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
 }
 
 .carousel-item img {
     width: 100%;
     height: 100%;
-    object-fit: contain !important;
+    object-fit: cover !important;
 }
 
 .carousel-caption {
@@ -79,7 +165,7 @@ section p,
 }
 
 .carousel-caption h1 {
-    font-size: 3rem;
+    font-size: 2rem; /* Reduced from 3rem */
     font-weight: bold;
     margin-bottom: 1rem;
 }
@@ -174,6 +260,10 @@ section p,
 }
 
 /* Navigation */
+.navbar {
+    padding: 0.5rem 0; /* Reduce header height */
+}
+
 .navbar-brand {
     font-weight: bold;
     font-size: 1.5rem;

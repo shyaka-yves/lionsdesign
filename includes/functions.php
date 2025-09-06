@@ -559,6 +559,15 @@ function validateOTP($conn, $email, $otp, $type) {
 
 function sendOTPEmail($email, $otp, $type) {
     try {
+        // Check if we're in a hosting environment
+        $is_hosting = !in_array($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1', '::1']);
+        
+        if ($is_hosting) {
+            // Use enhanced email function for hosting environments
+            require_once __DIR__ . '/email_hosting.php';
+            return sendOTPEmailHosting($email, $otp, $type);
+        }
+        
         // Load email configuration with proper path
         $config_file = __DIR__ . '/../config/email.php';
         if (!file_exists($config_file)) {
@@ -589,19 +598,24 @@ function sendOTPEmail($email, $otp, $type) {
         $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = $email_config['smtp_port'];
         
-        // Enable debug output (set to 2 for troubleshooting)
-        $mail->SMTPDebug = 2;
+        // Timeout settings for hosting environments
+        $mail->Timeout = isset($email_config['timeout']) ? $email_config['timeout'] : 30;
+        $mail->SMTPKeepAlive = true;
+        
+        // Enable debug output (set to 0 for production, 2 for troubleshooting)
+        $mail->SMTPDebug = 0; // Disable debug in production
         $smtp_debug_buffer = '';
         $mail->Debugoutput = function ($str, $level) use (&$smtp_debug_buffer) {
             $smtp_debug_buffer .= '[' . $level . '] ' . $str . "\n";
         };
 
-        // Local dev: relax SSL verification to avoid local CA issues
+        // SSL options for better compatibility with hosting environments
         $mail->SMTPOptions = [
             'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true,
+                'verify_peer' => isset($email_config['verify_peer']) ? $email_config['verify_peer'] : false,
+                'verify_peer_name' => isset($email_config['verify_peer_name']) ? $email_config['verify_peer_name'] : false,
+                'allow_self_signed' => isset($email_config['allow_self_signed']) ? $email_config['allow_self_signed'] : true,
+                'crypto_method' => STREAM_CRYPTO_METHOD_TLS_CLIENT,
             ],
         ];
         

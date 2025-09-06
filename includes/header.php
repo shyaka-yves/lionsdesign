@@ -8,6 +8,7 @@
 <style>
     body, html {
         font-family: 'Geist', 'Geist Variable', 'Geist Mono', 'Geist Mono Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+        font-size: 0.9rem; /* Reduced font size */
     }
     
     /* Global Search Styles */
@@ -50,12 +51,12 @@
         }
         
         .navbar-brand .logo {
-            width: 100px !important;
-            height: 58px !important;
+            width: 80px !important;
+            height: 45px !important;
         }
         
         .mobile-header-row {
-            min-height: 60px;
+            min-height: 50px;
         }
         
         .mobile-search-wrapper {
@@ -197,11 +198,11 @@
         }
         
         .search-result-title {
-            font-size: 0.9rem;
+            font-size: 0.8rem; /* Reduced from 0.9rem */
         }
         
         .search-result-description {
-            font-size: 0.8rem;
+            font-size: 0.75rem; /* Reduced from 0.8rem */
         }
         
         .search-result-title .badge {
@@ -222,9 +223,9 @@
         }
         
         .global-search-input {
-            font-size: 15px;
-            height: 38px;
-            padding: 0.45rem 0.6rem 0.45rem 1.8rem;
+            font-size: 14px; /* Reduced from 15px */
+            height: 36px; /* Reduced from 38px */
+            padding: 0.4rem 0.5rem 0.4rem 1.6rem; /* Reduced padding */
         }
         
         .navbar-brand .logo {
@@ -233,8 +234,8 @@
         }
         
         .navbar-toggler {
-            padding: 0.15rem 0.3rem;
-            font-size: 0.8rem;
+            padding: 0.1rem 0.25rem; /* Reduced padding */
+            font-size: 0.75rem; /* Reduced from 0.8rem */
         }
         
         .search-result-description {
@@ -376,17 +377,17 @@
     .search-result-title {
         font-weight: 600;
         margin-bottom: 0.25rem;
-        font-size: 0.9rem;
+        font-size: 0.8rem; /* Reduced from 0.9rem */
     }
     
     .search-result-description {
-        font-size: 0.8rem;
+        font-size: 0.75rem; /* Reduced from 0.8rem */
         color: #6c757d;
         margin-bottom: 0.25rem;
     }
     
     .search-result-price {
-        font-size: 0.8rem;
+        font-size: 0.75rem; /* Reduced from 0.8rem */
         color: #28a745;
         font-weight: 600;
     }
@@ -437,7 +438,7 @@
         <!-- Mobile Header Layout - All elements on same line -->
         <div class="d-flex align-items-center w-100 d-lg-none mobile-header-row">
             <a class="navbar-brand" href="index.php">
-                <img  src="image/logo.png"  class="logo" style="width: 120px; height: 70px;">
+                <img src="image/logo.png" class="logo" style="width: 100px; height: 50px;">
             </a>
             
             <!-- Mobile Search (visible only on mobile) -->
@@ -464,7 +465,7 @@
         
         <!-- Desktop Header Layout -->
         <a class="navbar-brand d-none d-lg-block" href="index.php">
-            <img  src="image/logo.png"  class="logo" style="width: 120px; height: 70px;">
+            <img src="image/logo.png" class="logo" style="width: 100px; height: 50px;">
         </a>
         
         <div class="collapse navbar-collapse" id="navbarNav">
