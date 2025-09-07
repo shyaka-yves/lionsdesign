@@ -26,8 +26,17 @@ $config = [
     'disable_verify_peer' => true,
     'debug_level' => 2, // temporarily enable SMTP debug to capture server response
     
-    // Alternative configurations for fallback
+    // Alternative configurations for fallback (Brevo first)
     'backup_configs' => [
+        // Brevo (primary fallback)
+        [
+            'smtp_host' => 'smtp-relay.brevo.com',
+            'smtp_port' => 587,
+            'smtp_secure' => 'tls',
+            'smtp_username' => 'admin@lionsdesignltd.com', // use your registered sender email
+            'smtp_password' => 'YOUR_BREVO_API_KEY', // Replace with actual Brevo API key
+            'debug_level' => 0,
+        ],
         // Same professional mailbox via SMTPS 465
         [
             'smtp_host' => 'mail.lionsdesignltd.com',
@@ -44,15 +53,6 @@ $config = [
             'smtp_secure' => 'tls',
             'smtp_username' => 'shyakayvany@gmail.com',
             'smtp_password' => 'uaur ahxe gqvb iemd',
-            'debug_level' => 0,
-        ],
-        // Brevo configuration as backup
-        [
-            'smtp_host' => 'smtp-relay.brevo.com',
-            'smtp_port' => 587,
-            'smtp_secure' => 'tls',
-            'smtp_username' => 'shyakayvany@gmail.com',
-            'smtp_password' => 'YOUR_BREVO_API_KEY', // Replace with actual Brevo API key
             'debug_level' => 0,
         ]
     ]

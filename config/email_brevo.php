@@ -6,8 +6,8 @@
 $config = [
     'smtp_host' => 'smtp-relay.brevo.com',
     'smtp_port' => 587,
-    'smtp_username' => 'shyakayvany@gmail.com', // Your registered email
-    'smtp_password' => 'YOUR_BREVO_API_KEY', // Replace with your actual Brevo API key
+    'smtp_username' => 'shyakayvany@gmail.com', // Brevo verified sender email
+    'smtp_password' => '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', // Brevo API key
     
     // Hosting environment settings optimized for lionsdesignltd.com
     'timeout' => 60, // Increased for hosting

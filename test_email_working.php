@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .test-result.error { background: #f8d7da; color: #721c24; }
         .test-result.info { background: #d1ecf1; color: #0c5460; }
         /* New theme colors for visual confirmation on live */
-        .testing-header { background: linear-gradient(90deg, #7c3aed, #06b6d4); color: #ffffff; }
+        .testing-header { background: linear-gradient(90deg, #ef4444, #111827); color: #ffffff; }
     </style>
 </head>
 <body class="bg-light">
@@ -133,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <input type="email" class="form-control" id="test_email" name="test_email" 
                                        placeholder="Enter email address to test" required>
                             </div>
-                            <button type="submit" class="btn btn-warning">Send Test Email</button>
+                            <button type="submit" class="btn btn-info">Send Test Email</button>
                         </form>
                         
                         <?php if (!empty($test_results)): ?>

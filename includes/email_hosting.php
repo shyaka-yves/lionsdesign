@@ -3,11 +3,16 @@
 
 function sendOTPEmailHosting($email, $otp, $type) {
     try {
-        // Load primary configuration
-        $primary_config = require __DIR__ . '/../config/email.php';
+        // 1) Try Brevo first (most reliable on shared hosts)
+        error_log("Trying Brevo SMTP first");
+        if (sendWithBrevo($email, $otp, $type)) {
+            error_log("Email sent successfully with Brevo");
+            return true;
+        }
         
-        // Try primary configuration first
-        error_log("Trying primary email config for lionsdesignltd.com");
+        // 2) Load primary configuration (professional/Gmail) and try
+        $primary_config = require __DIR__ . '/../config/email.php';
+        error_log("Trying primary email config after Brevo");
         if (sendWithConfig($email, $otp, $type, $primary_config)) {
             error_log("Email sent successfully with primary config");
             return true;
@@ -24,15 +29,14 @@ function sendOTPEmailHosting($email, $otp, $type) {
             }
         }
         
-        // Try alternative SMTP settings
+        // 3) Try alternative Gmail SMTPS hardcoded
         error_log("Trying alternative SMTP settings");
         if (sendWithAlternativeSettings($email, $otp, $type)) {
             return true;
         }
-        
-        // Try Brevo as last resort
-        error_log("Trying Brevo as last resort");
-        return sendWithBrevo($email, $otp, $type);
+
+        // Nothing worked
+        return false;
         
     } catch (Exception $e) {
         error_log("Email sending exception on lionsdesignltd.com: " . $e->getMessage());
