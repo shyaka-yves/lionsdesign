@@ -13,8 +13,8 @@ if (error_get_last()) {
 $config = [
     // Professional mailbox (primary)
     'smtp_host' => 'mail.lionsdesignltd.com',
-    'smtp_port' => 465,
-    'smtp_secure' => 'ssl',
+    'smtp_port' => 587,
+    'smtp_secure' => 'tls',
     'smtp_username' => 'admin@lionsdesignltd.com',
     'smtp_password' => 'VlNRg[jC*ED-',
     
@@ -24,10 +24,19 @@ $config = [
     'verify_peer_name' => false,
     'allow_self_signed' => true,
     'disable_verify_peer' => true,
-    'debug_level' => 0, // set 2 for verbose SMTP debug if needed
+    'debug_level' => 2, // temporarily enable SMTP debug to capture server response
     
     // Alternative configurations for fallback
     'backup_configs' => [
+        // Same professional mailbox via SMTPS 465
+        [
+            'smtp_host' => 'mail.lionsdesignltd.com',
+            'smtp_port' => 465,
+            'smtp_secure' => 'ssl',
+            'smtp_username' => 'admin@lionsdesignltd.com',
+            'smtp_password' => 'VlNRg[jC*ED-',
+            'debug_level' => 2,
+        ],
         // Gmail STARTTLS on port 587
         [
             'smtp_host' => 'smtp.gmail.com',

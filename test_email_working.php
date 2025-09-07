@@ -105,6 +105,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .test-result.success { background: #d4edda; color: #155724; }
         .test-result.error { background: #f8d7da; color: #721c24; }
         .test-result.info { background: #d1ecf1; color: #0c5460; }
+        /* New theme colors for visual confirmation on live */
+        .testing-header { background: linear-gradient(90deg, #7c3aed, #06b6d4); color: #ffffff; }
     </style>
 </head>
 <body class="bg-light">
@@ -112,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header bg-success text-white">
+                    <div class="card-header testing-header">
                         <h3 class="mb-0">✅ Working Email Test</h3>
                         <small>Fixed version for lionsdesignltd.com</small>
                     </div>
@@ -131,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <input type="email" class="form-control" id="test_email" name="test_email" 
                                        placeholder="Enter email address to test" required>
                             </div>
-                            <button type="submit" class="btn btn-success">Send Test Email</button>
+                            <button type="submit" class="btn btn-warning">Send Test Email</button>
                         </form>
                         
                         <?php if (!empty($test_results)): ?>
