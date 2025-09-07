@@ -11,9 +11,10 @@ if (error_get_last()) {
 }
 
 $config = [
-    // Gmail SMTP (optimized for hosting environment)
+    // Gmail SMTP (primary: SMTPS 465 to avoid STARTTLS handshake issues on some hosts)
     'smtp_host' => 'smtp.gmail.com',
-    'smtp_port' => 587,
+    'smtp_port' => 465,
+    'smtp_secure' => 'ssl',
     'smtp_username' => 'shyakayvany@gmail.com',
     'smtp_password' => 'uaur ahxe gqvb iemd', // Gmail App Password
     
@@ -23,23 +24,27 @@ $config = [
     'verify_peer_name' => false,
     'allow_self_signed' => true,
     'disable_verify_peer' => true,
+    'debug_level' => 0, // set 2 for verbose SMTP debug if needed
     
     // Alternative configurations for fallback
     'backup_configs' => [
-        // Try port 465 with SSL if 587 fails
+        // Fallback to STARTTLS on port 587
         [
             'smtp_host' => 'smtp.gmail.com',
-            'smtp_port' => 465,
-            'smtp_secure' => 'ssl',
+            'smtp_port' => 587,
+            'smtp_secure' => 'tls',
             'smtp_username' => 'shyakayvany@gmail.com',
             'smtp_password' => 'uaur ahxe gqvb iemd',
+            'debug_level' => 0,
         ],
         // Brevo configuration as backup
         [
             'smtp_host' => 'smtp-relay.brevo.com',
             'smtp_port' => 587,
+            'smtp_secure' => 'tls',
             'smtp_username' => 'shyakayvany@gmail.com',
             'smtp_password' => 'YOUR_BREVO_API_KEY', // Replace with actual Brevo API key
+            'debug_level' => 0,
         ]
     ]
 ];
