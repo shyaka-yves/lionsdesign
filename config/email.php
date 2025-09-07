@@ -20,7 +20,7 @@ $config = [
     'smtp_password' => 'VlNRg[jC*ED-',
     
     // Hosting environment specific settings for lionsdesignltd.com
-    'timeout' => 60, // Increased timeout for hosting
+    'timeout' => 10, // Reduced timeout for faster fallback
     'verify_peer' => false,
     'verify_peer_name' => false,
     'allow_self_signed' => true,

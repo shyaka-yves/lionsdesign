@@ -3,40 +3,9 @@
 
 function sendOTPEmailHosting($email, $otp, $type) {
     try {
-        // 1) Try Brevo first (most reliable on shared hosts)
-        error_log("Trying Brevo SMTP first");
-        if (sendWithBrevo($email, $otp, $type)) {
-            error_log("Email sent successfully with Brevo");
-            return true;
-        }
-        
-        // 2) Load primary configuration (professional/Gmail) and try
-        $primary_config = require __DIR__ . '/../config/email.php';
-        error_log("Trying primary email config after Brevo");
-        if (sendWithConfig($email, $otp, $type, $primary_config)) {
-            error_log("Email sent successfully with primary config");
-            return true;
-        }
-        
-        // Try backup configurations if primary fails
-        if (isset($primary_config['backup_configs'])) {
-            foreach ($primary_config['backup_configs'] as $index => $backup_config) {
-                error_log("Trying backup config #" . ($index + 1));
-                if (sendWithConfig($email, $otp, $type, $backup_config)) {
-                    error_log("Email sent successfully with backup config #" . ($index + 1));
-                    return true;
-                }
-            }
-        }
-        
-        // 3) Try alternative Gmail SMTPS hardcoded
-        error_log("Trying alternative SMTP settings");
-        if (sendWithAlternativeSettings($email, $otp, $type)) {
-            return true;
-        }
-
-        // 4) Quick fix fallback: PHP mail() via host MTA
-        error_log("Falling back to PHP mail() quick fix");
+        // Skip SMTP attempts and go directly to PHP mail() for speed
+        // SMTP is failing with SSL errors, so use the working fallback immediately
+        error_log("Using PHP mail() directly for speed");
         return sendWithPhpMail($email, $otp, $type);
         
     } catch (Exception $e) {
@@ -73,8 +42,8 @@ function sendWithConfig($email, $otp, $type, $email_config) {
 
         $mail->Port = $email_config['smtp_port'];
         
-        // Timeout and connection settings
-        $mail->Timeout = isset($email_config['timeout']) ? $email_config['timeout'] : 30;
+        // Timeout and connection settings (reduced for faster fallback)
+        $mail->Timeout = isset($email_config['timeout']) ? $email_config['timeout'] : 5;
         $mail->SMTPKeepAlive = true;
         $mail->SMTPDebug = isset($email_config['debug_level']) ? $email_config['debug_level'] : 0;
         

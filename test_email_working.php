@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .test-result.error { background: #f8d7da; color: #721c24; }
         .test-result.info { background: #d1ecf1; color: #0c5460; }
         /* New theme colors for visual confirmation on live */
-        .testing-header { background: linear-gradient(90deg, #dc2626, #059669); color: #ffffff; }
+        .testing-header { background: linear-gradient(90deg, #7c3aed, #ec4899); color: #ffffff; }
     </style>
 </head>
 <body class="bg-light">
