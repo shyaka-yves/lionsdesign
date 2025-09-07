@@ -54,13 +54,18 @@ function sendWithConfig($email, $otp, $type, $email_config) {
         $mail->Username = $email_config['smtp_username'];
         $mail->Password = $email_config['smtp_password'];
         
-        // Handle different encryption methods
+        // Handle different encryption methods with sane defaults per port
         if (isset($email_config['smtp_secure'])) {
             $mail->SMTPSecure = $email_config['smtp_secure'];
         } else {
-            $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+            // Default: STARTTLS on 587, SMTPS on 465
+            if (!empty($email_config['smtp_port']) && (int)$email_config['smtp_port'] === 465) {
+                $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
+            } else {
+                $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+            }
         }
-        
+
         $mail->Port = $email_config['smtp_port'];
         
         // Timeout and connection settings
@@ -68,13 +73,19 @@ function sendWithConfig($email, $otp, $type, $email_config) {
         $mail->SMTPKeepAlive = true;
         $mail->SMTPDebug = isset($email_config['debug_level']) ? $email_config['debug_level'] : 0;
         
-        // SSL options
+        // TLS/SSL options — prefer TLSv1.2+ to avoid WRONG_VERSION_NUMBER
+        $preferredCrypto = defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT')
+            ? STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT
+            : STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+
+        $mail->SMTPAutoTLS = true; // allow opportunistic TLS on 587
+
         $mail->SMTPOptions = [
             'ssl' => [
                 'verify_peer' => isset($email_config['verify_peer']) ? $email_config['verify_peer'] : false,
                 'verify_peer_name' => isset($email_config['verify_peer_name']) ? $email_config['verify_peer_name'] : false,
                 'allow_self_signed' => isset($email_config['allow_self_signed']) ? $email_config['allow_self_signed'] : true,
-                'crypto_method' => STREAM_CRYPTO_METHOD_TLS_CLIENT,
+                'crypto_method' => $preferredCrypto,
             ],
         ];
         
@@ -118,14 +129,18 @@ function sendWithAlternativeSettings($email, $otp, $type) {
         $mail->SMTPAuth = true;
         $mail->Username = 'shyakayvany@gmail.com';
         $mail->Password = 'uaur ahxe gqvb iemd';
-        $mail->SMTPSecure = 'ssl'; // Try SSL instead of STARTTLS
+        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS; // SMTPS on 465
         $mail->Port = 465; // Try port 465 instead of 587
         
+        $mail->SMTPAutoTLS = false; // not needed on implicit TLS
         $mail->SMTPOptions = [
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false,
                 'allow_self_signed' => true,
+                'crypto_method' => (defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT')
+                    ? STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT
+                    : STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT),
             ],
         ];
         
@@ -165,11 +180,15 @@ function sendWithBrevo($email, $otp, $type) {
         $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = $brevo_config['smtp_port'];
         
+        $mail->SMTPAutoTLS = true;
         $mail->SMTPOptions = [
             'ssl' => [
                 'verify_peer' => false,
                 'verify_peer_name' => false,
                 'allow_self_signed' => true,
+                'crypto_method' => (defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT')
+                    ? STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT
+                    : STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT),
             ],
         ];
         
