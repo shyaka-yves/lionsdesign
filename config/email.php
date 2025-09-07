@@ -11,12 +11,12 @@ if (error_get_last()) {
 }
 
 $config = [
-    // Gmail SMTP (primary: SMTPS 465 to avoid STARTTLS handshake issues on some hosts)
-    'smtp_host' => 'smtp.gmail.com',
+    // Professional mailbox (primary)
+    'smtp_host' => 'mail.lionsdesignltd.com',
     'smtp_port' => 465,
     'smtp_secure' => 'ssl',
-    'smtp_username' => 'shyakayvany@gmail.com',
-    'smtp_password' => 'uaur ahxe gqvb iemd', // Gmail App Password
+    'smtp_username' => 'admin@lionsdesignltd.com',
+    'smtp_password' => 'VlNRg[jC*ED-',
     
     // Hosting environment specific settings for lionsdesignltd.com
     'timeout' => 60, // Increased timeout for hosting
@@ -28,7 +28,7 @@ $config = [
     
     // Alternative configurations for fallback
     'backup_configs' => [
-        // Fallback to STARTTLS on port 587
+        // Gmail STARTTLS on port 587
         [
             'smtp_host' => 'smtp.gmail.com',
             'smtp_port' => 587,
