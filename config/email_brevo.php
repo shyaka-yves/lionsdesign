@@ -1,29 +1,24 @@
 <?php
-// Brevo (Sendinblue) Email Configuration
-// Free tier: 300 emails per day
-// Sign up at: https://www.brevo.com/
+// Brevo (Sendinblue) Email Configuration via .env
+// Keys expected in .env (kept out of repo):
+//   BREVO_SMTP_USERNAME=verified@yourdomain.com
+//   BREVO_SMTP_PASSWORD=your_api_key
+
+require_once __DIR__ . '/env.php';
 
 $config = [
     'smtp_host' => 'smtp-relay.brevo.com',
     'smtp_port' => 587,
-    'smtp_username' => 'shyakayvany@gmail.com', // Brevo verified sender email
-    'smtp_password' => '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', // Brevo API key
+    // Secure: read strictly from environment (no fallbacks)
+    'smtp_username' => ($_ENV['BREVO_SMTP_USERNAME'] ?? getenv('BREVO_SMTP_USERNAME') ?: ''),
+    'smtp_password' => ($_ENV['BREVO_SMTP_PASSWORD'] ?? getenv('BREVO_SMTP_PASSWORD') ?: ''),
     
     // Hosting environment settings optimized for lionsdesignltd.com
-    'timeout' => 60, // Increased for hosting
+    'timeout' => 60,
     'verify_peer' => false,
     'verify_peer_name' => false,
     'allow_self_signed' => true,
     'debug_level' => 0,
-    
-    // Instructions for setup
-    'setup_instructions' => [
-        '1. Sign up at https://www.brevo.com/',
-        '2. Go to Settings > SMTP & API',
-        '3. Generate a new API key',
-        '4. Replace YOUR_BREVO_API_KEY with your actual API key',
-        '5. Free tier allows 300 emails per day'
-    ]
 ];
 
 return $config;

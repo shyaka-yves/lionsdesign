@@ -1,5 +1,6 @@
 <?php
 // Email Configuration
+require_once __DIR__ . '/env.php';
 // For Gmail SMTP, you need to:
 // 1. Enable 2-factor authentication on your Gmail account
 // 2. Generate an App Password: https://myaccount.google.com/apppasswords
@@ -28,13 +29,13 @@ $config = [
     
     // Alternative configurations for fallback (Brevo first)
     'backup_configs' => [
-        // Brevo (primary fallback)
+        // Brevo (primary fallback) via .env
         [
             'smtp_host' => 'smtp-relay.brevo.com',
             'smtp_port' => 587,
             'smtp_secure' => 'tls',
-            'smtp_username' => 'admin@lionsdesignltd.com', // use your registered sender email
-            'smtp_password' => 'YOUR_BREVO_API_KEY', // Replace with actual Brevo API key
+            'smtp_username' => $_ENV['BREVO_SMTP_USERNAME'] ?? '',
+            'smtp_password' => $_ENV['BREVO_SMTP_PASSWORD'] ?? '',
             'debug_level' => 0,
         ],
         // Same professional mailbox via SMTPS 465

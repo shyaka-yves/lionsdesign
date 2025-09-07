@@ -35,8 +35,9 @@ function sendOTPEmailHosting($email, $otp, $type) {
             return true;
         }
 
-        // Nothing worked
-        return false;
+        // 4) Quick fix fallback: PHP mail() via host MTA
+        error_log("Falling back to PHP mail() quick fix");
+        return sendWithPhpMail($email, $otp, $type);
         
     } catch (Exception $e) {
         error_log("Email sending exception on lionsdesignltd.com: " . $e->getMessage());
@@ -215,5 +216,27 @@ function sendWithBrevo($email, $otp, $type) {
         error_log("Brevo email sending failed: " . $e->getMessage());
         return false;
     }
+}
+
+function sendWithPhpMail($email, $otp, $type) {
+    // Simple HTML email via PHP mail(), relies on hosting MTA
+    $subject = $type === 'signup' ? 'Email Verification - Lions Design' : 'Password Reset - Lions Design';
+    $message = $type === 'signup'
+        ? "<html><body style=\"font-family:Arial, sans-serif\">Your verification code is: <strong>$otp</strong><br><br>This code will expire in 10 minutes.<br><br>If you didn't request this, please ignore this email.</body></html>"
+        : "<html><body style=\"font-family:Arial, sans-serif\">Your password reset code is: <strong>$otp</strong><br><br>This code will expire in 10 minutes.<br><br>If you didn't request this, please ignore this email.</body></html>";
+
+    $from = 'no-reply@' . (isset($_SERVER['HTTP_HOST']) ? preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']) : 'lionsdesignltd.com');
+    $headers = [];
+    $headers[] = 'MIME-Version: 1.0';
+    $headers[] = 'Content-type: text/html; charset=UTF-8';
+    $headers[] = 'From: Lions Design <' . $from . '>';
+    $headers[] = 'Reply-To: ' . $from;
+    $headers[] = 'X-Mailer: PHP/' . phpversion();
+
+    $result = @mail($email, $subject, $message, implode("\r\n", $headers));
+    if (!$result) {
+        error_log('PHP mail() fallback failed');
+    }
+    return (bool)$result;
 }
 ?>
