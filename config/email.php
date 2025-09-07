@@ -25,7 +25,7 @@ $config = [
     'verify_peer_name' => false,
     'allow_self_signed' => true,
     'disable_verify_peer' => true,
-    'debug_level' => 2, // temporarily enable SMTP debug to capture server response
+    'debug_level' => 0,
     
     // Alternative configurations for fallback (Brevo first)
     'backup_configs' => [

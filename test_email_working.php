@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .test-result.error { background: #f8d7da; color: #721c24; }
         .test-result.info { background: #d1ecf1; color: #0c5460; }
         /* New theme colors for visual confirmation on live */
-        .testing-header { background: linear-gradient(90deg, #f59e0b, #8b5cf6); color: #ffffff; }
+        .testing-header { background: linear-gradient(90deg, #dc2626, #059669); color: #ffffff; }
     </style>
 </head>
 <body class="bg-light">
@@ -151,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                         <?php endif; ?>
                         
-                        <div class="alert alert-info mt-4">
+                        <div class="alert alert-warning mt-4">
                             <h5>📋 What This Test Does:</h5>
                             <ol>
                                 <li>Checks all required files exist</li>
