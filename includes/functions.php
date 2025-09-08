@@ -474,8 +474,25 @@ function updateProduct($conn, $id, $title, $description, $price, $image, $catego
 }
 
 function deleteProduct($conn, $id) {
-    $stmt = $conn->prepare("UPDATE products SET is_active = 0 WHERE id = ?");
-    return $stmt->execute([$id]);
+    try {
+        $conn->beginTransaction();
+
+        // Remove from carts referencing this product (cart has no FK)
+        $stmt = $conn->prepare("DELETE FROM cart WHERE product_id = ?");
+        $stmt->execute([$id]);
+
+        // Delete the product row (order_items will cascade via FK)
+        $stmt = $conn->prepare("DELETE FROM products WHERE id = ?");
+        $ok = $stmt->execute([$id]);
+
+        $conn->commit();
+        return $ok;
+    } catch (Exception $e) {
+        if ($conn->inTransaction()) {
+            $conn->rollBack();
+        }
+        return false;
+    }
 }
 
 // Utility functions
