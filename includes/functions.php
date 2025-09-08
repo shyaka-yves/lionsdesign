@@ -1,4 +1,23 @@
 <?php
+// Global bootstrap to prevent blank pages due to premature output
+if (function_exists('ob_start')) {
+    if (ob_get_level() === 0) {
+        ob_start();
+    }
+}
+
+// Shared safe redirect helper available to all pages
+if (!function_exists('safe_redirect')) {
+    function safe_redirect(string $url): void {
+        if (!headers_sent()) {
+            header('Location: ' . $url);
+            exit();
+        }
+        echo '<script>window.location.href=' . json_encode($url) . ';</script>';
+        echo '<noscript><meta http-equiv="refresh" content="0;url=' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '"></noscript>';
+        exit();
+    }
+}
 // Helper functions for Lions Design E-commerce
 
 // Include PHPMailer at the top of the file

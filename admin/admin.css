@@ -207,6 +207,7 @@ h6 { font-size: 0.9rem; } /* Reduced from 1rem */
 }
 
 @media (max-width: 768px) {
+  html { font-size: 16px; } /* Slight bump for mobile */
   /* make content padding smaller */
   main.col-md-9.ms-sm-auto.col-lg-10 {
     padding-left: 1rem !important;
@@ -228,7 +229,7 @@ h6 { font-size: 0.9rem; } /* Reduced from 1rem */
 
   .admin-sidebar .nav-link {
     padding: 10px 14px; /* Reduced from 12px 18px */
-    font-size: 0.75rem; /* Explicit font size for mobile */
+    font-size: 0.85rem; /* Slightly larger for readability */
   }
 
   .admin-mobile-header {

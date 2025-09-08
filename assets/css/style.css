@@ -329,6 +329,7 @@ section p,
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    html { font-size: 16px; } /* Slight bump for mobile readability */
     .admin-sidebar { min-height: auto; }
     .admin-sidebar .nav-link { padding: .75rem; }
     main.col-md-9 { padding-left: 1rem !important; padding-right: 1rem !important; }
@@ -359,8 +360,8 @@ section p,
         margin-bottom: .75rem;
     }
     .carousel-caption .btn {
-        padding: .5rem 1rem;
-        font-size: .95rem;
+        padding: .6rem 1.1rem;
+        font-size: 1rem;
     }
     
     .category-card {
@@ -374,7 +375,7 @@ section p,
 
 /* Mobile table improvements */
 @media (max-width: 576px) {
-    .table { font-size: .9rem; }
+    .table { font-size: 1rem; }
     .table td, .table th { white-space: nowrap; }
     .card-body .table-responsive { overflow-x: auto; }
     
