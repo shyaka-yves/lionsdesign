@@ -3,6 +3,30 @@ session_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
 
+// Normalize and resolve image paths saved in different directories/cases
+function resolveImagePath($rawPath) {
+    $path = trim((string)$rawPath);
+    if ($path === '') {
+        return 'assets/images/placeholder.jpg';
+    }
+    // If the exact file exists, return it
+    if (file_exists($path)) return $path;
+    // Try capitalized Uploads dir
+    $candidate = preg_replace('/^uploads\//i', 'Uploads/', $path);
+    if ($candidate && file_exists($candidate)) return $candidate;
+    // Try common product directory with basename
+    $base = basename($path);
+    $tryPaths = [
+        'Uploads/products/'.$base,
+        'uploads/products/'.$base,
+        'assets/images/products/'.$base
+    ];
+    foreach ($tryPaths as $p) {
+        if (file_exists($p)) return $p;
+    }
+    return 'assets/images/placeholder.jpg';
+}
+
 // Get category filter
 $category_filter = isset($_GET['category']) ? $_GET['category'] : null;
 $category_id = null;
@@ -128,7 +152,8 @@ $categories = getCategories($conn);
                             <?php foreach ($products as $product): ?>
                                 <div class="col-md-4 mb-4">
                                     <div class="card product-card h-100" id="product-<?php echo $product['id']; ?>">
-                                        <img src="<?php echo $product['image']; ?>" class="card-img-top"
+                                        <?php $img = resolveImagePath($product['image']); ?>
+                                        <img src="<?php echo htmlspecialchars($img); ?>" class="card-img-top"
                                             alt="<?php echo $product['title']; ?>">
                                         <div class="card-body d-flex flex-column">
                                             <h5 class="card-title"><?php echo $product['title']; ?></h5>
@@ -266,7 +291,7 @@ $categories = getCategories($conn);
                 html += `
                     <div class="col-md-4 mb-4">
                         <div class="card product-card h-100" id="product-${product.id}">
-                            <img src="${product.image}" class="card-img-top" alt="${product.title}">
+                            <img src="${product.image.replace(/^uploads\//i, 'Uploads/')}" class="card-img-top" alt="${product.title}" onerror="this.onerror=null;this.src='assets/images/placeholder.jpg';">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">${product.title}</h5>
                                 <p class="card-text">${product.description.substring(0, 100)}...</p>

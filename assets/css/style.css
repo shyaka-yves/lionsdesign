@@ -153,14 +153,16 @@ section p,
 }
 
 .carousel-caption {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.68);
     padding: 2rem;
-    border-radius: 10px;
+    border-radius: 16px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80%;
+    width: auto;
+    max-width: 70%;
     bottom: 12%;
     text-align: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
 }
 
 .carousel-caption h1 {
@@ -375,7 +377,25 @@ section p,
 /* Desktop and larger tablets: make hero fit the viewport nicely */
 @media (min-width: 992px) {
     .carousel-item {
-        height: 70vh; /* show large, responsive hero without overflow */
+        height: 85vh; /* full-bleed hero similar to your local screenshot */
+    }
+    .carousel-caption {
+        padding: 2.25rem 3rem;
+        bottom: 10%;
+        max-width: 65%;
+        border-radius: 18px;
+    }
+    .carousel-caption h1 {
+        font-size: 3.25rem;
+        font-weight: 800;
+    }
+    .carousel-caption p {
+        font-size: 1.05rem;
+        margin-bottom: 1.1rem;
+    }
+    .carousel-caption .btn {
+        font-size: 1.05rem;
+        padding: .8rem 1.4rem;
     }
 }
 
