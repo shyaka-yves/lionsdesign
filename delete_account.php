@@ -34,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_delete'])) {
             $stmt = $conn->prepare("DELETE FROM orders WHERE user_id = ?");
             $stmt->execute([$user_id]);
             
-            // Delete user's cart items
-            $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
+            // Delete user's service requests (if any)
+            $stmt = $conn->prepare("DELETE FROM service_requests WHERE user_id = ?");
             $stmt->execute([$user_id]);
             
             // Delete user's feedback

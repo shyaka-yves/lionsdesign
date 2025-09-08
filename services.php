@@ -72,7 +72,21 @@ $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($services as $service): ?>
                 <div class="col-md-4 col-lg-3">
                     <div class="service-card h-100 d-flex flex-column">
-                        <img src="<?= htmlspecialchars($service['image']) ?>" class="service-img" alt="<?= htmlspecialchars($service['title']) ?>" onerror="this.src='assets/images/placeholder.jpg'">
+                        <?php
+                            $img = trim((string)$service['image']);
+                            // Normalize legacy paths that used lowercase 'uploads' vs 'Uploads'
+                            if ($img && !file_exists($img)) {
+                                $candidate = preg_replace('/^uploads\//i', 'Uploads/', $img);
+                                if ($candidate && file_exists($candidate)) {
+                                    $img = $candidate;
+                                }
+                            }
+                            // If still missing, try prefixing with site root relative path
+                            if ($img && !file_exists($img) && file_exists('Uploads/services/'.basename($img))) {
+                                $img = 'Uploads/services/'.basename($img);
+                            }
+                        ?>
+                        <img src="<?= htmlspecialchars($img ?: 'assets/images/placeholder.jpg') ?>" class="service-img" alt="<?= htmlspecialchars($service['title']) ?>" onerror="this.src='assets/images/placeholder.jpg'">
                         <div class="p-3 flex-grow-1 d-flex flex-column">
                             <div class="service-title mb-2"><?= htmlspecialchars($service['title']) ?></div>
                             <div class="mb-2" style="font-size:0.85rem; color:#444;"> <!-- Reduced from 0.95rem -->

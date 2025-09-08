@@ -20,9 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
         if (in_array($ext, $allowed) && $_FILES['image']['size'] <= 5*1024*1024) {
             $filename = uniqid().'.'.$ext;
-            $target = '../uploads/services/'.$filename;
+            // Normalize to capitalized directory used in production
+            $targetDir = '../Uploads/services/';
+            if (!is_dir($targetDir)) {
+                @mkdir($targetDir, 0777, true);
+            }
+            $target = $targetDir.$filename;
             if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
-                $image_path = 'uploads/services/'.$filename;
+                $image_path = 'Uploads/services/'.$filename;
             }
         }
     }

@@ -142,7 +142,6 @@ section p,
 
 /* Hero Carousel */
 .carousel-item {
-    height: 500px;
     background-size: cover;
     background-position: center;
 }
@@ -370,6 +369,13 @@ section p,
     
     .product-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Desktop and larger tablets: make hero fit the viewport nicely */
+@media (min-width: 992px) {
+    .carousel-item {
+        height: 70vh; /* show large, responsive hero without overflow */
     }
 }
 
