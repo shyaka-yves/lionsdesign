@@ -1,9 +1,11 @@
 <?php
 session_start();
+ob_start();
 
-// Add error reporting for debugging
+// Keep errors out of JSON on production; log instead
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 
 try {
     require_once '../config/database.php';
@@ -14,6 +16,8 @@ try {
 }
 
 header('Content-Type: application/json');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
@@ -91,6 +95,7 @@ try {
         'total' => count($results),
         'search_term' => $search_term
     ]);
+    ob_end_flush();
     
 } catch (Exception $e) {
     error_log("Global search error: " . $e->getMessage());
@@ -98,5 +103,6 @@ try {
         'success' => false,
         'message' => 'Search failed: ' . $e->getMessage()
     ]);
+    ob_end_flush();
 }
 ?>

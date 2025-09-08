@@ -719,7 +719,7 @@ function performGlobalSearch(searchTerm, dropdownId) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
     
-    fetch('ajax/global_search.php', {
+    fetch('/ajax/global_search.php', {
         method: 'POST',
         body: formData,
         signal: controller.signal
