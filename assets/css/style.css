@@ -22,11 +22,11 @@ body {
 
 /* Global font size reductions */
 html {
-    font-size: 14px; /* Base font size reduced from 16px */
+    font-size: 15px; /* Slightly increased for readability (no header changes) */
 }
 
 body {
-    font-size: 0.9rem; /* Reduced from default 1rem */
+    font-size: 0.95rem; /* Slightly increased from 0.9rem */
 }
 
 /* Headings font size reductions */

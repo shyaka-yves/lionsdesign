@@ -1,15 +1,28 @@
 <?php
 session_start();
+ob_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
+
+// Safe redirect helper to avoid blank pages if headers already sent
+if (!function_exists('safe_redirect')) {
+    function safe_redirect(string $url): void {
+        if (!headers_sent()) {
+            header('Location: ' . $url);
+            exit();
+        }
+        echo '<script>window.location.href=' . json_encode($url) . ';</script>';
+        echo '<noscript><meta http-equiv="refresh" content="0;url=' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '"></noscript>';
+        exit();
+    }
+}
 
 $error = '';
 $success = '';
 
 // Check if email is provided (from OTP verification)
 if (!isset($_GET['email'])) {
-    header("Location: forgot_password.php");
-    exit();
+    safe_redirect('forgot_password.php');
 }
 
 $email = $_GET['email'];
@@ -18,8 +31,7 @@ $email = $_GET['email'];
 $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
 $stmt->execute([$email]);
 if (!$stmt->fetch()) {
-    header("Location: forgot_password.php");
-    exit();
+    safe_redirect('forgot_password.php');
 }
 
 // Handle password reset

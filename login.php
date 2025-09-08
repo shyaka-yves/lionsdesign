@@ -1,7 +1,21 @@
 <?php
 session_start();
+ob_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
+
+// Safe redirect helper to avoid blank pages if headers already sent
+if (!function_exists('safe_redirect')) {
+    function safe_redirect(string $url): void {
+        if (!headers_sent()) {
+            header('Location: ' . $url);
+            exit();
+        }
+        echo '<script>window.location.href=' . json_encode($url) . ';</script>';
+        echo '<noscript><meta http-equiv="refresh" content="0;url=' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '"></noscript>';
+        exit();
+    }
+}
 
 $error = '';
 
@@ -20,11 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['role'] = $user['role'];
             // Redirect to intended page or home
             if ($user['role'] == 'admin' || $user['role'] == 'super') {
-                header("Location: admin/index.php");
+                safe_redirect('admin/index.php');
             } else {
-                header("Location: index.php");
+                safe_redirect('index.php');
             }
-            exit();
         } else {
             $error = 'Invalid email or password.';
         }

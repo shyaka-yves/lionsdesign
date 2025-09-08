@@ -1,7 +1,21 @@
 <?php
 session_start();
+ob_start();
 require_once 'config/database.php';
 require_once 'includes/functions.php';
+
+// Safe redirect to prevent blank page if headers already sent
+if (!function_exists('safe_redirect')) {
+    function safe_redirect(string $url): void {
+        if (!headers_sent()) {
+            header('Location: ' . $url);
+            exit();
+        }
+        echo '<script>window.location.href=' . json_encode($url) . ';</script>';
+        echo '<noscript><meta http-equiv="refresh" content="0;url=' . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . '"></noscript>';
+        exit();
+    }
+}
 
 $message = '';
 $error = '';
@@ -52,8 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $show_otp_form = true;
         } elseif (validateOTP($conn, $email, $otp, 'password_reset')) {
             // OTP is valid, redirect to reset password page
-            header("Location: reset_password.php?email=" . urlencode($email));
-            exit();
+            safe_redirect('reset_password.php?email=' . urlencode($email));
         } else {
             $error = "Invalid or expired reset code. Please try again.";
             $show_otp_form = true;
