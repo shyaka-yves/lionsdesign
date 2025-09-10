@@ -57,6 +57,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Progressive enhancement: lazy-load images for performance across all pages
+if ('loading' in HTMLImageElement.prototype) {
+    document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+        // noop: native lazy-loading will handle it; keep for clarity
+    });
+} else if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                if (img.dataset && img.dataset.src) {
+                    img.src = img.dataset.src;
+                }
+                io.unobserve(img);
+            }
+        });
+    }, { rootMargin: '200px 0px' });
+
+    document.querySelectorAll('img[loading="lazy"]').forEach(img => io.observe(img));
+}
+
 // Add to cart function
 function addToCart(productId, quantity = 1) {
     const formData = new FormData();

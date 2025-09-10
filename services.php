@@ -33,9 +33,15 @@ $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .service-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
         .service-img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px 12px 0 0; background-color: #f8f9fa; }
         .service-title { font-weight: 700; font-size: 1rem; } /* Reduced from 1.2rem */
-        .service-price { color: #009e3c; font-weight: 600; }
+        .service-price { color: #009e3c; font-weight: 600; margin-top: auto; margin-bottom: .25rem; }
+        .service-note { color:#6c757d; font-size:.85rem; margin:0; }
         .btn-request { background: #009e3c; color: #fff; border: none; font-weight: 600; }
         .btn-request:hover { background: #007a2c; }
+        @media (max-width: 576px){
+            .service-img{ height:180px; }
+            .service-title{ font-size:.95rem; }
+            .service-note{ font-size:.8rem; }
+        }
     </style>
 </head>
 <body>
@@ -86,16 +92,14 @@ $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 $img = 'Uploads/services/'.basename($img);
                             }
                         ?>
-                        <img src="<?= htmlspecialchars($img ?: 'assets/images/placeholder.jpg') ?>" class="service-img" alt="<?= htmlspecialchars($service['title']) ?>" onerror="this.src='assets/images/placeholder.jpg'">
+                        <img src="<?= htmlspecialchars($img ?: 'image/logo.png') ?>" class="service-img" alt="<?= htmlspecialchars($service['title']) ?>" loading="lazy" decoding="async" fetchpriority="low" width="600" height="400" onerror="this.onerror=null;this.src='image/logo.png'">
                         <div class="p-3 flex-grow-1 d-flex flex-column">
                             <div class="service-title mb-2"><?= htmlspecialchars($service['title']) ?></div>
                             <div class="mb-2" style="font-size:0.85rem; color:#444;"> <!-- Reduced from 0.95rem -->
                                 <?= nl2br(htmlspecialchars($service['description'])) ?>
                             </div>
-                            <div class="service-price mb-3">Starting at <?= htmlspecialchars($service['price']) ?></div>
-                            <div class="mt-auto">
-                               <p style="position: relative; bottom: 20px;color:#333;">"If you are interested in this service, please contact us." </p>
-                            </div>
+                            <div class="service-price">Starting at <?= htmlspecialchars($service['price']) ?></div>
+                            <p class="service-note">If you are interested in this service, please contact us.</p>
                         </div>
                     </div>
                 </div>
@@ -219,19 +223,18 @@ function displayFilteredServices(services, searchTerm = '') {
     
     html += '<div class="row g-4">';
     services.forEach(service => {
+        const img = resolveServiceImagePath(service.image);
         html += `
             <div class="col-md-4 col-lg-3">
                 <div class="service-card h-100 d-flex flex-column">
-                    <img src="${service.image}" class="service-img" alt="${service.title}" onerror="this.src='assets/images/placeholder.jpg'">
+                    <img src="${img}" class="service-img" alt="${service.title}" loading="lazy" decoding="async" fetchpriority="low" width="600" height="400" onerror="this.onerror=null;this.src='image/logo.png'">
                     <div class="p-3 flex-grow-1 d-flex flex-column">
                         <div class="service-title mb-2">${service.title}</div>
                         <div class="mb-2" style="font-size:0.85rem; color:#444;"> <!-- Reduced from 0.95rem -->
                             ${service.description.replace(/\n/g, '<br>')}
                         </div>
-                        <div class="service-price mb-3">Starting at ${service.price}</div>
-                        <div class="mt-auto">
-                        <p style="position: relative; bottom: 20px;color:#333;">"If you are interested in this service, please contact us." </p>    
-                        </div>
+                        <div class="service-price">Starting at ${service.price}</div>
+                        <p class="service-note">If you are interested in this service, please contact us.</p>
                     </div>
                 </div>
             </div>
@@ -257,6 +260,22 @@ document.addEventListener('DOMContentLoaded', function() {
         searchServices();
     }
 });
+
+// Normalize service image path coming from DB (case-sensitive servers)
+function resolveServiceImagePath(path){
+    if(!path){ return 'image/logo.png'; }
+    try{
+        // Fix common 'uploads' vs 'Uploads' mismatch
+        let fixed = path.replace(/^uploads\//i,'Uploads/');
+        // If it's only a filename, ensure it points to Uploads/services
+        if(!/\//.test(fixed)){
+            fixed = 'Uploads/services/' + fixed;
+        }
+        return fixed;
+    }catch(e){
+        return 'image/logo.png';
+    }
+}
 
 // AJAX submit for service request
 const form = document.getElementById('serviceRequestForm');
