@@ -31,14 +31,14 @@ $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
         /* Remove custom body font to use global style */
         .service-card { border: 1px solid #eee; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: box-shadow .2s; background: #fff; }
         .service-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
-        .service-img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px 12px 0 0; background-color: #f8f9fa; }
+        .service-img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; border-radius: 12px 12px 0 0; background-color: #ffffff; max-height: 240px; }
         .service-title { font-weight: 700; font-size: 1rem; } /* Reduced from 1.2rem */
         .service-price { color: #009e3c; font-weight: 600; margin-top: auto; margin-bottom: .25rem; }
         .service-note { color:#6c757d; font-size:.85rem; margin:0; }
         .btn-request { background: #009e3c; color: #fff; border: none; font-weight: 600; }
         .btn-request:hover { background: #007a2c; }
         @media (max-width: 576px){
-            .service-img{ height:180px; }
+            .service-img{ height:auto; aspect-ratio: 1 / 1; max-height: 200px; }
             .service-title{ font-size:.95rem; }
             .service-note{ font-size:.8rem; }
         }
