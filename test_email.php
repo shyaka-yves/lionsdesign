@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $error = "Failed to send test email.";
             $last_error = isset($GLOBALS['LAST_EMAIL_ERROR']) ? $GLOBALS['LAST_EMAIL_ERROR'] : '';
             $last_debug = isset($GLOBALS['LAST_EMAIL_DEBUG']) ? nl2br(htmlspecialchars($GLOBALS['LAST_EMAIL_DEBUG'])) : '';
-            $debug_info = "Please make sure you have configured your email credentials in config/email.php";
+            $debug_info = "Please make sure you have configured your email credentials in config/email.php or via .env";
             if ($last_error) {
                 $debug_info .= "<br><strong>Mailer Error:</strong> " . htmlspecialchars($last_error);
             }
@@ -114,18 +114,10 @@ if (file_exists($config_file)) {
                         <div class="alert alert-warning">
                             <h5>Setup Instructions:</h5>
                             <ol>
-                                <li>For Gmail SMTP:
+                                <li>For professional mailbox (hosting provider SMTP):
                                     <ul>
-                                        <li>Enable 2-factor authentication on your Gmail account</li>
-                                        <li>Generate an App Password: <a href="https://myaccount.google.com/apppasswords" target="_blank">https://myaccount.google.com/apppasswords</a></li>
-                                        <li>Replace 'your-gmail-app-password' in config/email.php with your actual App Password</li>
-                                    </ul>
-                                </li>
-                                <li>For Brevo (Sendinblue):
-                                    <ul>
-                                        <li>Sign up at <a href="https://www.brevo.com/" target="_blank">https://www.brevo.com/</a></li>
-                                        <li>Get your API key from the dashboard</li>
-                                        <li>Update the config/email.php file with your Brevo credentials</li>
+                                        <li>Set MAIL_HOST, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_ENCRYPTION in .env</li>
+                                        <li>Use the mailbox and password provided by your host (or app password)</li>
                                     </ul>
                                 </li>
                             </ol>

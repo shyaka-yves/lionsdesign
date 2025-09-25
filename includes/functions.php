@@ -655,9 +655,38 @@ function sendOTPEmail($email, $otp, $type) {
             ],
         ];
         
+        // Sender identity
+        $fromAddress = isset($email_config['from_address']) && $email_config['from_address'] !== ''
+            ? $email_config['from_address']
+            : $email_config['smtp_username'];
+        $fromName = isset($email_config['from_name']) && $email_config['from_name'] !== ''
+            ? $email_config['from_name']
+            : 'Lions Design';
+
         // Recipients
-        $mail->setFrom($email_config['smtp_username'], 'Lions Design');
+        $mail->setFrom($fromAddress, $fromName);
         $mail->addAddress($email);
+        $mail->addReplyTo($fromAddress, $fromName);
+        if (!empty($email_config['bounce_address'])) {
+            $mail->Sender = $email_config['bounce_address']; // Return-Path / envelope sender
+        }
+
+        // Deliverability headers
+        $listUnsub = [];
+        $listUnsub[] = '<mailto:' . $fromAddress . '>';
+        $mail->addCustomHeader('List-Unsubscribe', implode(', ', $listUnsub));
+
+        // DKIM (optional)
+        if (!empty($email_config['dkim']) && !empty($email_config['dkim']['enabled'])) {
+            $dk = $email_config['dkim'];
+            if (!empty($dk['private_key_path']) && file_exists($dk['private_key_path'])) {
+                $mail->DKIM_domain = $dk['domain'] ?? '';
+                $mail->DKIM_selector = $dk['selector'] ?? '';
+                $mail->DKIM_private = $dk['private_key_path'];
+                $mail->DKIM_passphrase = $dk['passphrase'] ?? '';
+                $mail->DKIM_identity = $fromAddress;
+            }
+        }
         
         // Content
         $subject = $type === 'signup' ? 'Email Verification - Lions Design' : 'Password Reset - Lions Design';
@@ -668,7 +697,8 @@ function sendOTPEmail($email, $otp, $type) {
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $message;
-        $mail->AltBody = strip_tags($message);
+        // Provide a nicer plain-text alternative
+        $mail->AltBody = trim(strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $message)));
         
         // Send email
         if ($mail->send()) {

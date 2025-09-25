@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <li><strong>SSL/TLS:</strong> Verify SSL certificate verification settings</li>
                                 <li><strong>Firewall:</strong> Ensure outbound SMTP connections are allowed</li>
                                 <li><strong>PHP Extensions:</strong> Check if openssl and curl extensions are enabled</li>
-                                <li><strong>Alternative Providers:</strong> Consider using Brevo, SendGrid, or Mailgun</li>
+                                <li><strong>Alternative Providers:</strong> Consider using your host's professional mailbox only</li>
                             </ol>
                         </div>
                         
@@ -107,10 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <h5>⚙️ Alternative Email Providers:</h5>
                             <p>If Gmail SMTP doesn't work on your hosting, try these alternatives:</p>
                             <ul>
-                                <li><strong>Brevo (Sendinblue):</strong> Free 300 emails/day</li>
-                                <li><strong>SendGrid:</strong> Free 100 emails/day</li>
-                                <li><strong>Mailgun:</strong> Free 5,000 emails/month</li>
-                                <li><strong>Amazon SES:</strong> Pay-as-you-go pricing</li>
+                                <li>Use your hosting provider's SMTP with proper credentials.</li>
                             </ul>
                         </div>
                     </div>

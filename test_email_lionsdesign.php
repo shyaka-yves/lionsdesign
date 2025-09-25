@@ -51,10 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $error .= "<br><strong>Error Details:</strong> " . htmlspecialchars($last_error);
             }
             
-            // Additional debugging for hosting
-            $debug_info .= "<strong>Gmail App Password:</strong> " . (strlen('uaur ahxe gqvb iemd') > 0 ? 'Configured ✅' : 'Not configured ❌') . "<br>";
-            $debug_info .= "<strong>SMTP Port 587:</strong> " . (checkPort('smtp.gmail.com', 587) ? 'Open ✅' : 'Blocked/Filtered ❌') . "<br>";
-            $debug_info .= "<strong>SMTP Port 465:</strong> " . (checkPort('smtp.gmail.com', 465) ? 'Open ✅' : 'Blocked/Filtered ❌') . "<br>";
+            // Additional debugging for hosting (generic, no secrets)
+            $debug_info .= "<strong>SMTP Port 587 (TLS):</strong> " . (checkPort(getenv('MAIL_HOST') ?: 'smtp.gmail.com', 587) ? 'Open ✅' : 'Blocked/Filtered ❌') . "<br>";
+            $debug_info .= "<strong>SMTP Port 465 (SSL):</strong> " . (checkPort(getenv('MAIL_HOST') ?: 'smtp.gmail.com', 465) ? 'Open ✅' : 'Blocked/Filtered ❌') . "<br>";
         }
     }
 }
@@ -122,7 +121,7 @@ function checkPort($host, $port) {
                                 <li><strong>Hosting SMTP Restrictions:</strong> Some hosts block SMTP ports - check with your hosting provider</li>
                                 <li><strong>Firewall Settings:</strong> Ensure outbound connections to smtp.gmail.com are allowed</li>
                                 <li><strong>PHP Extensions:</strong> Verify openssl and curl extensions are enabled</li>
-                                <li><strong>Alternative Solution:</strong> Consider using Brevo (Sendinblue) which works better on some hosts</li>
+                                <li><strong>Alternative Solution:</strong> Use your hosting provider's professional mailbox SMTP only</li>
                             </ol>
                         </div>
                         
@@ -132,7 +131,7 @@ function checkPort($host, $port) {
                                 <li>Try the test with a different email provider (Gmail, Yahoo, Outlook)</li>
                                 <li>Check your hosting control panel for SMTP settings</li>
                                 <li>Contact your hosting provider about SMTP restrictions</li>
-                                <li>Consider using a dedicated email service like Brevo or SendGrid</li>
+                                <li>Use your host's SMTP with correct credentials and ports</li>
                             </ul>
                         </div>
                     </div>

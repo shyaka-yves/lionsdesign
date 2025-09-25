@@ -1,66 +1,58 @@
 <?php
-// Email Configuration
+// Email Configuration (secure)
+// Loads strictly from environment via config/env.php. No hardcoded credentials.
 require_once __DIR__ . '/env.php';
-// For Gmail SMTP, you need to:
-// 1. Enable 2-factor authentication on your Gmail account
-// 2. Generate an App Password: https://myaccount.google.com/apppasswords
-// 3. Use the App Password instead of your regular password
 
-// Check for any errors before returning
-if (error_get_last()) {
-    error_log("Email config errors: " . print_r(error_get_last(), true));
-}
+// Required keys (documented in .env.example):
+// MAIL_HOST, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_ENCRYPTION (tls|ssl|none), MAIL_TIMEOUT
 
+// Read from environment only
+$host = $_ENV['MAIL_HOST'] ?? getenv('MAIL_HOST') ?: '';
+$port = (int)($_ENV['MAIL_PORT'] ?? getenv('MAIL_PORT') ?: 0);
+$username = $_ENV['MAIL_USERNAME'] ?? getenv('MAIL_USERNAME') ?: '';
+$password = $_ENV['MAIL_PASSWORD'] ?? getenv('MAIL_PASSWORD') ?: '';
+$encryption = $_ENV['MAIL_ENCRYPTION'] ?? getenv('MAIL_ENCRYPTION') ?: 'tls';
+$timeout = (int)($_ENV['MAIL_TIMEOUT'] ?? getenv('MAIL_TIMEOUT') ?: 30);
+
+// Optional sender identity
+$fromAddress = $_ENV['MAIL_FROM_ADDRESS'] ?? getenv('MAIL_FROM_ADDRESS') ?: $username;
+$fromName = $_ENV['MAIL_FROM_NAME'] ?? getenv('MAIL_FROM_NAME') ?: 'Lions Design';
+
+// Optional bounce/return-path address
+$bounceAddress = $_ENV['MAIL_BOUNCE_ADDRESS'] ?? getenv('MAIL_BOUNCE_ADDRESS') ?: '';
+
+// Optional DKIM configuration
+$dkimEnabled = strtolower($_ENV['MAIL_DKIM_ENABLED'] ?? getenv('MAIL_DKIM_ENABLED') ?: 'false') === 'true';
+$dkimDomain = $_ENV['MAIL_DKIM_DOMAIN'] ?? getenv('MAIL_DKIM_DOMAIN') ?: '';
+$dkimSelector = $_ENV['MAIL_DKIM_SELECTOR'] ?? getenv('MAIL_DKIM_SELECTOR') ?: '';
+$dkimPrivateKeyPath = $_ENV['MAIL_DKIM_PRIVATE_KEY_PATH'] ?? getenv('MAIL_DKIM_PRIVATE_KEY_PATH') ?: '';
+$dkimPassphrase = $_ENV['MAIL_DKIM_PASSPHRASE'] ?? getenv('MAIL_DKIM_PASSPHRASE') ?: '';
+
+// Build config
 $config = [
-    // Professional mailbox (primary)
-    'smtp_host' => 'mail.lionsdesignltd.com',
-    'smtp_port' => 587,
-    'smtp_secure' => 'tls',
-    'smtp_username' => 'admin@lionsdesignltd.com',
-    'smtp_password' => 'VlNRg[jC*ED-',
-    
-    // Hosting environment specific settings for lionsdesignltd.com
-    'timeout' => 10, // Reduced timeout for faster fallback
+    'smtp_host' => $host,
+    'smtp_port' => $port ?: 587,
+    'smtp_secure' => $encryption,
+    'smtp_username' => $username,
+    'smtp_password' => $password,
+    'timeout' => $timeout,
+    'from_address' => $fromAddress,
+    'from_name' => $fromName,
+    'bounce_address' => $bounceAddress,
+    'dkim' => [
+        'enabled' => $dkimEnabled,
+        'domain' => $dkimDomain,
+        'selector' => $dkimSelector,
+        'private_key_path' => $dkimPrivateKeyPath,
+        'passphrase' => $dkimPassphrase,
+    ],
+    // Conservative SSL options defaults; do not verify self-signed to improve compat on shared hosts
     'verify_peer' => false,
     'verify_peer_name' => false,
     'allow_self_signed' => true,
-    'disable_verify_peer' => true,
     'debug_level' => 0,
-    
-    // Alternative configurations for fallback (Brevo first)
-    'backup_configs' => [
-        // Brevo (primary fallback) via .env
-        [
-            'smtp_host' => 'smtp-relay.brevo.com',
-            'smtp_port' => 587,
-            'smtp_secure' => 'tls',
-            'smtp_username' => $_ENV['BREVO_SMTP_USERNAME'] ?? '',
-            'smtp_password' => $_ENV['BREVO_SMTP_PASSWORD'] ?? '',
-            'debug_level' => 0,
-        ],
-        // Same professional mailbox via SMTPS 465
-        [
-            'smtp_host' => 'mail.lionsdesignltd.com',
-            'smtp_port' => 465,
-            'smtp_secure' => 'ssl',
-            'smtp_username' => 'admin@lionsdesignltd.com',
-            'smtp_password' => 'VlNRg[jC*ED-',
-            'debug_level' => 2,
-        ],
-        // Gmail STARTTLS on port 587
-        [
-            'smtp_host' => 'smtp.gmail.com',
-            'smtp_port' => 587,
-            'smtp_secure' => 'tls',
-            'smtp_username' => 'shyakayvany@gmail.com',
-            'smtp_password' => 'uaur ahxe gqvb iemd',
-            'debug_level' => 0,
-        ]
-    ]
 ];
 
-// Log the config for debugging
-error_log("Email config loaded: " . print_r($config, true));
-
+// Do not log full config to avoid leaking secrets
 return $config;
 ?>
